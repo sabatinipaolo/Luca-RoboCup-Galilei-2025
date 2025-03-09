@@ -1,3 +1,6 @@
 {
-    "cmake.sourceDirectory": "/home/luca/Documents/Study/Robotica/Lightweigth 2025/Software/robotics-2025/lib/Adafruit_BusIO"
+    "cmake.sourceDirectory": "/home/luca/Documents/Study/Robotica/Lightweigth 2025/Software/robotics-2025/lib/Adafruit_BusIO",
+    "files.associations": {
+        "*.tcc": "cpp"
+    }
 }

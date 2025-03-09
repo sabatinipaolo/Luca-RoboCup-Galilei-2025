@@ -1,60 +1,64 @@
 #include "movement/motors.h"
+#include "utility/utility.h"
 #include <Arduino.h>
 
-Motor::Motor(int a, int b, int pwm, int angle_){
-    this->pinA = a;
-    this->pinB = b;
-    this->pinPwm = pwm;
-    this->angle = angle_;
+Motor::Motor(int a, int b, int pwm, int ANGLE){
+    this->PIN_A = a;
+    this->PIN_B = b;
+    this->PIN_PWM = pwm;
+    this->ANGLE = ANGLE;
 
-    pinMode(pinA, OUTPUT);
-    pinMode(pinB, OUTPUT);
-    pinMode(pinPwm, OUTPUT);
+    ANGLE_SIN = sin(toRad(ANGLE));
+    ANGLE_COS = cos(toRad(ANGLE));
+
+    pinMode(PIN_A, OUTPUT);
+    pinMode(PIN_B, OUTPUT);
+    pinMode(PIN_PWM, OUTPUT);
 }
 
 Motor::Motor() {}
 
 void Motor::drive(int speed){
     if(speed > 0) {
-        digitalWrite(pinA, HIGH);
-        digitalWrite(pinB, LOW);
+        digitalWrite(PIN_A, HIGH);
+        digitalWrite(PIN_B, LOW);
 
     }else if(speed < 0) {
-        digitalWrite(pinA, LOW);
-        digitalWrite(pinB, HIGH);
+        digitalWrite(PIN_A, LOW);
+        digitalWrite(PIN_B, HIGH);
         speed *= -1;
 
     } else {
-        digitalWrite(pinA, LOW);
-        digitalWrite(pinB, LOW);
+        digitalWrite(PIN_A, LOW);
+        digitalWrite(PIN_B, LOW);
     }
 
-    analogWrite(pinPwm, speed);
+    analogWrite(PIN_PWM, speed);
 }
 
 void Motor::stop(){
-    digitalWrite(pinA, HIGH);
-    digitalWrite(pinB, HIGH);
+    digitalWrite(PIN_A, HIGH);
+    digitalWrite(PIN_B, HIGH);
 }
 
 void Motor::test(){
-    digitalWrite(pinA, LOW);
-    digitalWrite(pinB, HIGH);
-    analogWrite(pinPwm, 255);
+    digitalWrite(PIN_A, LOW);
+    digitalWrite(PIN_B, HIGH);
+    analogWrite(PIN_PWM, 255);
     delay(1500);
 
-    digitalWrite(pinA, LOW);
-    digitalWrite(pinB, LOW);
-    analogWrite(pinPwm, 0);
+    digitalWrite(PIN_A, LOW);
+    digitalWrite(PIN_B, LOW);
+    analogWrite(PIN_PWM, 0);
     delay(500);
 
-    digitalWrite(pinA, HIGH);
-    digitalWrite(pinB, LOW);
-    analogWrite(pinPwm, 255);
+    digitalWrite(PIN_A, HIGH);
+    digitalWrite(PIN_B, LOW);
+    analogWrite(PIN_PWM, 255);
     delay(1500);
 
-    digitalWrite(pinA, LOW);
-    digitalWrite(pinB, LOW);
-    analogWrite(pinPwm, 0);
+    digitalWrite(PIN_A, LOW);
+    digitalWrite(PIN_B, LOW);
+    analogWrite(PIN_PWM, 0);
     delay(500);
 }
