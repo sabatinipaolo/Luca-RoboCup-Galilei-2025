@@ -1,3 +1,4 @@
+#pragma once
 #include <PID_v1.h>
 #include "./motors.h"
 
@@ -23,6 +24,6 @@ public:
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);
     MovementController();
-    void move(int vel, int dir, int orient, double compass);
+    void move(int vel, int dir, int orient);
     void stop();
 };

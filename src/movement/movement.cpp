@@ -1,5 +1,6 @@
-#include "../include/movement/movement.h"
-#include "../include/utility/utility.h"
+#include "movement/movement.h"
+#include "sensors/sensors.h"
+#include "utility/utility.h"
 
 MovementController::MovementController() {
     MovementController(
@@ -26,10 +27,10 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
 
 }
 
-void MovementController::move(int vel, int dir, int orient, double compass) {
+void MovementController::move(int speed, int dir, int orient) {
     //CONTROLLA DA QUA
-    if (compass > 180) input = (double)(compass - 360.0);
-    else input = (double)compass;
+    if (compass->angle > 180) input = (double)(compass->angle - 360.0);
+    else input = (double)compass->angle;
 
     if (orient > 180) setPoint = (double)(orient - 360.0);
     else setPoint = (double)orient;
@@ -39,29 +40,29 @@ void MovementController::move(int vel, int dir, int orient, double compass) {
     //FINO A QUA
 
     double rang = toRad(dir);
-    float vx = vel * cos(rang);
-    float vy = -vel * sin(rang);
+    float vx = speed * cos(rang);
+    float vy = -speed * sin(rang);
     
-    float speed[4];
-    speed[0] = (vx * motors[0]->ANGLE_SIN) + (vy * motors[0]->ANGLE_COS);
-    speed[1] = (vx * motors[1]->ANGLE_SIN) + (vy * motors[1]->ANGLE_COS);
-    speed[2] = (vx * motors[2]->ANGLE_SIN) + (vy * motors[2]->ANGLE_COS);
-    speed[3] = (vx * motors[3]->ANGLE_SIN) + (vy * motors[3]->ANGLE_COS);
+    float motorSpeed[4];
+    motorSpeed[0] = (vx * motors[0]->ANGLE_SIN) + (vy * motors[0]->ANGLE_COS);
+    motorSpeed[1] = (vx * motors[1]->ANGLE_SIN) + (vy * motors[1]->ANGLE_COS);
+    motorSpeed[2] = (vx * motors[2]->ANGLE_SIN) + (vy * motors[2]->ANGLE_COS);
+    motorSpeed[3] = (vx * motors[3]->ANGLE_SIN) + (vy * motors[3]->ANGLE_COS);
 
-    speed[0] += offsetPid;
-    speed[1] += offsetPid;
-    speed[2] += offsetPid;
-    speed[3] += offsetPid;
+    motorSpeed[0] += offsetPid;
+    motorSpeed[1] += offsetPid;
+    motorSpeed[2] += offsetPid;
+    motorSpeed[3] += offsetPid;
 
-    speed[0] = constrain(speed[0], -255, 255);
-    speed[1] = constrain(speed[1], -255, 255);
-    speed[2] = constrain(speed[2], -255, 255);
-    speed[3] = constrain(speed[3], -255, 255);
+    motorSpeed[0] = constrain(motorSpeed[0], -255, 255);
+    motorSpeed[1] = constrain(motorSpeed[1], -255, 255);
+    motorSpeed[2] = constrain(motorSpeed[2], -255, 255);
+    motorSpeed[3] = constrain(motorSpeed[3], -255, 255);
 
-    motors[0]->drive(speed[0]);
-    motors[1]->drive(speed[1]);
-    motors[2]->drive(speed[2]);
-    motors[3]->drive(speed[3]);
+    motors[0]->drive(motorSpeed[0]);
+    motors[1]->drive(motorSpeed[1]);
+    motors[2]->drive(motorSpeed[2]);
+    motors[3]->drive(motorSpeed[3]);
 }
 
 void MovementController::stop() {
