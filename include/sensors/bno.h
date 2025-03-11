@@ -3,7 +3,7 @@
 
 class BNO {
 private:
-    Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
+    Adafruit_BNO055 bno;
     int STARTING_ANGLE, p_angle;
 
 public:

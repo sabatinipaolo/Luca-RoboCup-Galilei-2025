@@ -8,7 +8,6 @@
 
 class MovementController {
 private:
-    //STUDIA CHE CAZZO SONO QUESTI :)
     double input;
     double output;
     double setPoint;
@@ -17,13 +16,13 @@ private:
 
 public:
     //motors[0]: M1 ALTO-SX
-    //motors[1]: M1 ALTO-DX
-    //motors[2]: M1 BASSO-DX
-    //motors[3]: M1 BASSO-SX
+    //motors[1]: M2 ALTO-DX
+    //motors[2]: M3 BASSO-DX
+    //motors[3]: M4 BASSO-SX
     Motor* motors[4];
+    int speed, dir, orient;
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);
-    MovementController();
-    void move(int vel, int dir, int orient);
+    void move(int speed, int dir, int orient);
     void stop();
 };

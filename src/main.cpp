@@ -8,8 +8,5 @@ void setup() {
 
 void loop() {
 	readSensors();
-	// driver->motors[0]->test();
-	// driver->motors[1]->test();
-	// driver->motors[2]->test();
-	// driver->motors[3]->test();
+	driver->move(100, 0, 0);
 }

@@ -22,7 +22,7 @@ private:
     int PIN_A, PIN_B, PIN_PWM, ANGLE;
 
 public:
-    int ANGLE_COS, ANGLE_SIN;    
+    double ANGLE_COS, ANGLE_SIN;    
 
     Motor(int PIN_A, int PIN_B, int PIN_PWM, int ANGLE);
     Motor();
