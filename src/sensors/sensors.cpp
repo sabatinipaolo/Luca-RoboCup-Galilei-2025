@@ -14,9 +14,11 @@ void initSensors() {
     );
     compass = new BNO();
     lines = new Lines();
+    ball = new Ball();
 }
 
 void readSensors() {
     compass->read();
     // lines->read();
+    ball->read();
 }
