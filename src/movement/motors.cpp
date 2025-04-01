@@ -20,12 +20,12 @@ Motor::Motor() {}
 
 void Motor::drive(int speed){
     if(speed > 0) {
-        digitalWrite(PIN_A, HIGH);
-        digitalWrite(PIN_B, LOW);
-
-    }else if(speed < 0) {
         digitalWrite(PIN_A, LOW);
         digitalWrite(PIN_B, HIGH);
+
+    }else if(speed < 0) {
+        digitalWrite(PIN_A, HIGH);
+        digitalWrite(PIN_B, LOW);
         speed *= -1;
 
     } else {

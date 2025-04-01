@@ -19,7 +19,7 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
     pid->SetControllerDirection(DIRECT);
 }
 
-void MovementController::move(int speed, int dir, int orient) {
+void MovementController::move(int dir, int speed, int orient) {
     //Motor movement
     double r_dir = toRad(dir);
     float vx = speed * cos(r_dir);
@@ -38,11 +38,11 @@ void MovementController::move(int speed, int dir, int orient) {
     setPoint = (orient > 180) ? orient - 360.0 : orient;
 
     if (pid->Compute()) {
-        static double offsetPid = -output;
-        motorSpeed[0] -= output;
-        motorSpeed[1] -= output;
-        motorSpeed[2] -= output;
-        motorSpeed[3] -= output;
+        double offsetPid = -output;
+        motorSpeed[0] += offsetPid;
+        motorSpeed[1] += offsetPid;
+        motorSpeed[2] += offsetPid;
+        motorSpeed[3] += offsetPid;
 
         motorSpeed[0] = constrain(motorSpeed[0], -255, 255);
         motorSpeed[1] = constrain(motorSpeed[1], -255, 255);
@@ -62,4 +62,11 @@ void MovementController::stop() {
     motors[1]->stop();
     motors[2]->stop();
     motors[3]->stop();
+}
+
+void MovementController::test() {
+    driver->motors[0]->test();
+	driver->motors[1]->test();
+	driver->motors[2]->test();
+	driver->motors[3]->test();
 }

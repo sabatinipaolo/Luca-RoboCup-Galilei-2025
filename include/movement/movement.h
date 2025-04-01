@@ -12,7 +12,7 @@ private:
     double output;
     double setPoint;
 
-    PID* pid;
+    PID* pid; 
 
 public:
     //motors[0]: M1 ALTO-SX
@@ -23,6 +23,7 @@ public:
     int speed, dir, orient;
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);
-    void move(int speed, int dir, int orient);
+    void move(int dir, int speed, int orient);
     void stop();
+    void test();
 };

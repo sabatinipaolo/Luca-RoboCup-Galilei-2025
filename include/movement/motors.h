@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
+// Bluepill
 #define PIN_A_0 PB12
 #define PIN_B_0 PB13
 #define PIN_VEL_0 PB1
