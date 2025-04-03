@@ -9,9 +9,12 @@ Ball::Ball() {
 
 void Ball::read() {
     while (BALL_SERIAL.available() > 0) {
-        byte read = BALL_SERIAL.read();
-        if (read == 'A') relativeAngle = BALL_SERIAL.parseInt();
-        if (read == 'D') distance = BALL_SERIAL.parseInt();
+        int read = BALL_SERIAL.parseInt();
+        if (read | 1) distance = read >> 1;
+        else relativeAngle = read >> 1;
+
+        // if (read == 'A') relativeAngle = BALL_SERIAL.parseInt();
+        // if (read == 'D') distance = BALL_SERIAL.parseInt();
         seen = distance < 255;
     }
 
