@@ -13,9 +13,11 @@ void Lines::read() {
     values[5] = analogRead(PIN_S_OUTSIDE);
     values[6] = analogRead(PIN_W_INSIDE);
     values[7] = analogRead(PIN_W_OUTSIDE);
+    
+    status = 0;
 
     if(values[0] > LINES_THRESHOLD) status |= 0b10000000;
-    if(values[1] > LINES_THRESHOLD) status |= 0b01000000;
+    if(values[1] > LINES_THRESHOLD) status |= 0b01000000; // Lower the threshold for ROCK (250-300)
     if(values[2] > LINES_THRESHOLD) status |= 0b00100000;
     if(values[3] > LINES_THRESHOLD) status |= 0b00010000;
     if(values[4] > LINES_THRESHOLD) status |= 0b00001000;

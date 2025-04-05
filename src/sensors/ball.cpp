@@ -4,18 +4,27 @@
 #include "utility/utility.h"
 
 Ball::Ball() {
-    BALL_SERIAL.begin(57600);
+    BALL_SERIAL.begin(19200);
 }
 
 void Ball::read() {
-    while (BALL_SERIAL.available() > 0) {
-        int read = BALL_SERIAL.parseInt();
-        if (read | 1) distance = read >> 1;
-        else relativeAngle = read >> 1;
+    // byte prefix;
+    while (BALL_SERIAL.available()) {
+        digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+        // prefix = BALL_SERIAL.read();
+        // if (prefix != 'a' and prefix != 'd') continue;
 
-        // if (read == 'A') relativeAngle = BALL_SERIAL.parseInt();
-        // if (read == 'D') distance = BALL_SERIAL.parseInt();
-        seen = distance < 255;
+        // String data = "";
+        // data += BALL_SERIAL.readString();
+        // data += BALL_SERIAL.readString();
+        // data += BALL_SERIAL.readString();
+
+        // if (prefix == 'a') relativeAngle = data.toInt();
+        // if (prefix == 'd') distance = data.toInt();
+
+        String message = BALL_SERIAL.readStringUntil('e');
+        if (message[0] == 'a') relativeAngle = message.substring(1).toInt();
+        if (message[0] == 'd') distance = message.substring(1).toInt();
     }
 
     relativeAngle = filter_angle(relativeAngle, p_angle, 0.45);

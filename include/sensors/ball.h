@@ -1,6 +1,6 @@
 #pragma once
 
-#define BALL_SERIAL Serial3
+#define BALL_SERIAL Serial1
 
 class Ball {
 private:
