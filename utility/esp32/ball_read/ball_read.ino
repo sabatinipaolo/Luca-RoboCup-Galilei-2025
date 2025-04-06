@@ -36,8 +36,9 @@ int angle = 0, distance = 0;
 void setup() {
   delay(1000);
 
-  // Serial.begin(57600);
-  Serial2.begin(57600);
+  Serial.begin(57600);
+  Serial1.begin(9600);
+  Serial2.begin(9600);
 
   // for(int i=0; i<16; i++) {
   //   pinMode(PIN_SENSOR[i], INPUT);
@@ -58,23 +59,25 @@ void setup() {
 void loop() {
   static unsigned long sendTimer = 0;
   
-  if (millis() - sendTimer > 1000) {
+  // if (millis() - sendTimer > 1000) {
+    Serial1.write("a");
     Serial2.write("a");
+    Serial.println("a");
     sendTimer = millis();
     digitalWrite(PIN_LED[1], !digitalRead(PIN_LED[1]));
     
     // Wait for echo
     unsigned long start = millis();
-    while(Serial2.available() == 0 && millis() - start < 100) {
-      // Wait for response
-    }
-    if(Serial2.available()) {
-      char c = Serial2.read();
-      if(c == 'a') {
-        digitalWrite(PIN_LED[2], HIGH); // Indicate successful comms
-      }
-    }
-  }
+    // while(Serial2.available() == 0 && millis() - start < 100) {
+    //   // Wait for response
+    // }
+    // if(Serial2.available()) {
+    //   char c = Serial2.read();
+    //   if(c == 'a') {
+    //     digitalWrite(PIN_LED[2], HIGH); // Indicate successful comms
+    //   }
+    // }
+  // }
   // readBallInterpolation();
   // printCounters();
   // printBall();

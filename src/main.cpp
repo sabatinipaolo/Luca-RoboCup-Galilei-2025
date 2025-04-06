@@ -3,24 +3,30 @@
 #include "movement/movement.h"
 #include "sensors/sensors.h"
 
-#if !defined(HAVE_HWSERIAL2) && defined(USART2_ENABLED)
+// #if !defined(HAVE_HWSERIAL2) && defined(USART2_ENABLED)
+// HardwareSerial Serial1(PA10, PA9);
 HardwareSerial Serial2(USART2);
-#endif
+HardwareSerial Serial3(USART3);
+// #endif
 
 // String read;
-
+// PA3 PA2
 void setup() {
 		// Enable USART2 clock
-	RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
-	__DSB(); // Data synchronization barrier
+	// RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+	// __DSB(); // Data synchronization barrier
 	pinMode(LED_BUILTIN, OUTPUT); // LOW is ON, HIGH is OFF
 	digitalWrite(LED_BUILTIN, LOW); // Turn on LED to indicate power
 
     // digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 	// initSensors();
 	// Serial1.begin(19200);
-	Serial2.begin(57600);
-	while(!Serial2); // Wait for serial port to connect
+	// Serial2.begin(19200);
+	// Serial1.begin(9600); //TX-PA9/RX-PA10
+	Serial2.begin(9600); //TX-PA2/RX-PA3
+	Serial3.begin(9600); //TX-PB10/RX-PB11
+	Serial.begin(9600); //USB (PA11/PA12)
+	// while(!Serial2); // Wait for serial port to connect
 
 	// Blink LED to indicate setup complete
 	for(int i=0; i<3; i++) {
@@ -42,11 +48,25 @@ void loop() {
 	// while (Serial1.available() > 0) {
     //     read = Serial1.readString();
     // }
-	if(Serial2.available()) {
-		digitalWrite(LED_BUILTIN, HIGH); // Turn off LED when receiving
-		char c = Serial2.read();
-		// Simple echo - send back what we received
-		Serial2.write(c);
-		digitalWrite(LED_BUILTIN, LOW); // Turn on LED after
-	}
+	// if(Serial1.available()) {
+	// 	digitalWrite(LED_BUILTIN, HIGH); // Turn off LED when receiving
+	// 	char c = Serial1.read();
+	// 	// Simple echo - send back what we received
+	// 	Serial.print(c);
+	// 	digitalWrite(LED_BUILTIN, LOW); // Turn on LED after
+	// }
+	// if(Serial2.available()) {
+	// 	digitalWrite(LED_BUILTIN, HIGH); // Turn off LED when receiving
+	// 	char c = Serial2.read();
+	// 	// Simple echo - send back what we received
+	// 	Serial.print(c);
+	// 	digitalWrite(LED_BUILTIN, LOW); // Turn on LED after
+	// }
+	// if(Serial3.available()) {
+	// 	digitalWrite(LED_BUILTIN, HIGH); // Turn off LED when receiving
+	// 	char c = Serial3.read();
+	// 	// Simple echo - send back what we received
+	// 	Serial.print(c);
+	// 	digitalWrite(LED_BUILTIN, LOW); // Turn on LED after
+	// }
 }
