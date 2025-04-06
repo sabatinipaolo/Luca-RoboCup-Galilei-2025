@@ -8,21 +8,8 @@ Ball::Ball() {
 }
 
 void Ball::read() {
-    // byte prefix;
     while (BALL_SERIAL.available()) {
-        digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-        // prefix = BALL_SERIAL.read();
-        // if (prefix != 'a' and prefix != 'd') continue;
-
-        // String data = "";
-        // data += BALL_SERIAL.readString();
-        // data += BALL_SERIAL.readString();
-        // data += BALL_SERIAL.readString();
-
-        // if (prefix == 'a') relativeAngle = data.toInt();
-        // if (prefix == 'd') distance = data.toInt();
-
-        String message = BALL_SERIAL.readStringUntil('e');
+        String message = BALL_SERIAL.readStringUntil('\n');
         if (message[0] == 'a') relativeAngle = message.substring(1).toInt();
         if (message[0] == 'd') distance = message.substring(1).toInt();
     }
