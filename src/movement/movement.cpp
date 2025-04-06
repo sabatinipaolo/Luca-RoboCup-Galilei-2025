@@ -57,6 +57,10 @@ void MovementController::move(int dir, int speed, int orient) {
     motors[3]->drive(motorSpeed[3]);
 }
 
+void MovementController::move() {
+    move(dir, speed, orient);
+}
+
 void MovementController::stop() {
     motors[0]->stop();
     motors[1]->stop();

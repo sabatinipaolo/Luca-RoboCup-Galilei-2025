@@ -24,6 +24,7 @@ public:
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);
     void move(int dir, int speed, int orient);
+    void move();
     void stop();
     void test();
 };
