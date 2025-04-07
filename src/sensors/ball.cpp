@@ -4,14 +4,24 @@
 #include "utility/utility.h"
 
 Ball::Ball() {
-    BALL_SERIAL.begin(19200);
+    BallSerial = new HardwareSerial(BALL_RX, BALL_TX);
+    BallSerial->begin(57600);
+
+    relativeAngle = 0;
+    absoluteAngle = 0;
+    distance = 0;
+
+    p_angle = 0;
+    p_distance = 0;
+
+    seen = false;
 }
 
 void Ball::read() {
-    while (BALL_SERIAL.available()) {
-        String message = BALL_SERIAL.readStringUntil('\n');
-        if (message[0] == 'a') relativeAngle = message.substring(1).toInt();
-        if (message[0] == 'd') distance = message.substring(1).toInt();
+    while (BallSerial->available()) {
+        String message = BallSerial->readStringUntil('b');
+        relativeAngle = message.substring(message.lastIndexOf("B")+1, message.indexOf("-")).toInt();
+        distance = message.substring(message.lastIndexOf("-")+1).toInt();
     }
 
     relativeAngle = filter_angle(relativeAngle, p_angle, 0.45);

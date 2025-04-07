@@ -2,9 +2,9 @@
 #include <PID_v1.h>
 #include "./motors.h"
 
-#define KP 1.25 
+#define KP 1.2
 #define KI 0.0 
-#define KD 0.1
+#define KD 0.05
 
 class MovementController {
 private:
