@@ -13,8 +13,8 @@
 #define PIN_W_INSIDE PA7
 #define PIN_W_OUTSIDE PA6
 
-#define LINES_THRESHOLD 350 //100
-#define REACT_SPEED 80
+// #define LINES_THRESHOLD 350
+#define LINES_THRESHOLD 100
 
 class Lines {
 public:

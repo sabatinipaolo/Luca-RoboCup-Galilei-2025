@@ -1,6 +1,7 @@
 #include "sensors/lines.h"
 #include "sensors/sensors.h"
 #include "utility/utility.h"
+#include "game/game.h"
 
 Lines::Lines() {}
 
@@ -27,7 +28,7 @@ void Lines::read() {
 }
 
 void Lines::react() {
-    driver->speed = REACT_SPEED;
+    driver->speed = SPEED_LINE_REACT;
 
     int dirX = 0;
     int dirY = 0;
@@ -41,11 +42,13 @@ void Lines::react() {
     if (((status & 0b00000010) >> 1) == 1) dirX += 100;
     if (((status & 0b00000001) >> 0) == 1) dirX += 150;
 
+    if (dirX >= 150 or dirX <= -150 or dirY >= 150 or dirY <= -150) driver->speed *= 1.5;
+
     driver->dir = toGrad(atan2(dirX, dirY));
 }
 
 void Lines::react(float* dirX, float* dirY) {
-    driver->speed = REACT_SPEED;
+    driver->speed = SPEED_LINE_REACT;
 
     if (((status & 0b10000000) >> 7) == 1) dirY -= 100;
     if (((status & 0b01000000) >> 6) == 1) dirY -= 150;

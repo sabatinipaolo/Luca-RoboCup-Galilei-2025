@@ -9,6 +9,7 @@ BNO::BNO() {
     
     imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
     STARTING_ANGLE = euler.x();
+    int angle = 0;
 }
 
 void BNO::read() {

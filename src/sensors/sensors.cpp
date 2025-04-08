@@ -19,6 +19,6 @@ void initSensors() {
 
 void readSensors() {
     compass->read();
-    lines->read();
+    // lines->read();
     ball->read();
 }

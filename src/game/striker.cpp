@@ -11,4 +11,7 @@ void attack() {
     else if (ball->relativeAngle < 160) driver->dir = 180; //170
     else if (ball->relativeAngle > 200) driver->dir = 180; //190
     else                                driver->dir = 130;
+
+    //TEST LINES
+    driver->dir = ball->absoluteAngle;
 }

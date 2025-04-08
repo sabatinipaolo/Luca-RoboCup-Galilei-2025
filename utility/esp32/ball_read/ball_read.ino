@@ -33,7 +33,7 @@ int PIN_SENSOR[16] = {35, 34, 39, 36, 19, 18, 5, 4, 2, 15, 14, 27, 26, 25, 33, 3
 float SENSOR_X[16];
 float SENSOR_Y[16];
 
-int counter[16];
+int timesSeen[16];
 int angle = 0, distance = 0;
 
 HardwareSerial BallSerial(2);
@@ -67,48 +67,47 @@ void loop() {
     readBallInterpolation();
     printCounters();
     printBall();
-    // angle = 360;
-    // distance = 20;
     sendDataInterpolation();
 
     sendTimer = millis();
-    digitalWrite(PIN_LED[1], !digitalRead(PIN_LED[1]));    
+    digitalWrite(PIN_LED[2], !digitalRead(PIN_LED[1]));    
   }
 }
 
 void readBallInterpolation() {
   for (int i=0; i<16; i++) {
-    counter[i] = 0;
+    timesSeen[i] = 0;
   }
 
   for (int i=0; i<NCYCLES; i++) {
     for (int j=0; j<16; j++) {
-      counter[j] += digitalRead(PIN_SENSOR[j]);
+      timesSeen[j] += digitalRead(PIN_SENSOR[j]);
     }
   }
 
   for (int i=0; i<16; i++) {
-    counter[i] = NCYCLES - counter[i];
+    timesSeen[i] = NCYCLES - timesSeen[i];
+    if (timesSeen[i] > BROKEN || timesSeen[i] < TOO_LOW) timesSeen[i] = 0;
   }
 
-  float x=0, y=0;
+  int maxSensorValue = 0;
   for (int i=0; i<16; i++) {
-    if (counter[i] > BROKEN || counter[i] < TOO_LOW) counter[i] = 0;
+    maxSensorValue = max(maxSensorValue, timesSeen[i]);
+  }
 
-    x += SENSOR_X[i] * counter[i];
-    y += SENSOR_Y[i] * counter[i];
+  //CHECK WHAT TO USE
+  float x=0, y=0;
+  float xTemp1=0, yTemp1=0;
+  float xTemp2=0, yTemp2=0;
+  for (int i=0; i<16; i++) {
+    x += SENSOR_X[i] * timesSeen[i];
+    y += SENSOR_Y[i] * timesSeen[i];
   }
 
   angle = atan2(y, x) * 180 / PI;
   angle = ((int)(angle + 360)) % 360;
 
   //distance is 0 when not seeing ball
-  distance = hypot(x, y);
-
-  int maxSensorValue = 0;
-  for (int i = 0; i < 16; i++) {
-    maxSensorValue = max(maxSensorValue, counter[i]);
-  }
   distance = maxSensorValue;
 
   digitalWrite(PIN_LED[3], distance);
@@ -137,11 +136,11 @@ void printBall() {
 }
 
 void printCounters() {
-  for (int i = 0; i < 16; i++) {
+  for (int i=0; i<16; i++) {
     Serial.print("Sensor[");
     Serial.print(i);
     Serial.print("] = ");
-    Serial.println(counter[i]);
+    Serial.println(timesSeen[i]);
   }
   Serial.println("----------------------------");
 }
