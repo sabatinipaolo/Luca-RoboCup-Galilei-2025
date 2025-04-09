@@ -3,7 +3,9 @@
 #include "utility/utility.h"
 #include "game/game.h"
 
-Lines::Lines() {}
+Lines::Lines() {
+    read();
+}
 
 void Lines::read() {
     values[0] = analogRead(PIN_N_INSIDE);

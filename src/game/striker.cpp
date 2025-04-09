@@ -13,5 +13,6 @@ void attack() {
     else                                driver->dir = 130;
 
     //TEST LINES
-    driver->dir = ball->absoluteAngle;
+    if (ball->seen) driver->dir = ball->absoluteAngle;
+    else driver->dir = 0;
 }

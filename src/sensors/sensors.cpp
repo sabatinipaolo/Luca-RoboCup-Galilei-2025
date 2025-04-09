@@ -2,8 +2,6 @@
 
 #include "sensors/sensors.h"
 #include "movement/movement.h"
-#include "sensors/bno.h"
-#include "sensors/lines.h"
 
 void initSensors() {
     driver = new MovementController(
@@ -13,12 +11,11 @@ void initSensors() {
         new Motor(PIN_A_3, PIN_B_3, PIN_VEL_3, 225) //M4 BASSO/SX
     );
     compass = new BNO();
-    lines = new Lines();
     ball = new Ball();
+    lines = new Lines();
 }
 
 void readSensors() {
     compass->read();
-    // lines->read();
     ball->read();
 }
