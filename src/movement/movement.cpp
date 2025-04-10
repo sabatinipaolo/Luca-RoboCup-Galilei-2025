@@ -56,6 +56,8 @@ void MovementController::move(int dir, int speed, int orient) {
     motors[1]->drive(motorSpeed[1]);
     motors[2]->drive(motorSpeed[2]);
     motors[3]->drive(motorSpeed[3]);
+
+    if (brake) stop();
 }
 
 void MovementController::move() {

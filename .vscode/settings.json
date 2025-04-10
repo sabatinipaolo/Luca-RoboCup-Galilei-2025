@@ -3,6 +3,9 @@
     "files.associations": {
         "*.tcc": "cpp",
         "iterator": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "iosfwd": "cpp",
+        "limits": "cpp",
+        "streambuf": "cpp"
     }
 }

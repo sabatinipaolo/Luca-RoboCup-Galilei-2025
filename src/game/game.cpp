@@ -4,70 +4,65 @@
 #include "sensors/sensors.h"
 
 void game() {
-    static unsigned long t0, tf, startTime;
-    static unsigned long reactTimer = -LINE_REACT_TIME, timer = 0;
-    static byte savedLineStatus = 0;
+    static unsigned long startTime = -LINE_REACT_TIME;
+    static byte gameState = PLAY;
 
-    static int gameState = PLAY;
-    static int checkTimeout;
-    // driver->brake = false;
+    // INCREDIBLY SIMPLE GAME LOGIC - I HOPE YOU WON'T HAVE TO USE IT
+    // if (lines->status > 0) lines->react(lines->status);
+    // else attack();
 
-    if (lines->status > 0) lines->react();
-    else attack();
-
-    // t0 = millis();
-    // if (t0 - reactTimer >= LINE_REACT_TIME) {
+    // SIMPLE GAME LOGIC - MISSING BRAKE LOGIC
+    // unsigned long t0 = millis();
+    // if (t0 - startTime >= LINE_REACT_TIME) {
     //     if (lines->status) {
-    //         savedLineStatus = lines->status;
-    //         reactTimer = t0;
+    //         lines->savedStatus = lines->status;
+    //         startTime = t0;
     //     } else {
     //         attack();
     //     }
     // } else {
-    //     lines->react(savedLineStatus);
+    //     lines->react(lines->savedStatus);
     //     // lines->react(lines->status);
-    //     //driver->speed = 50;
-    //     //driver->dir = 0;
-    // } 
-    // t0 = millis();
-    // switch (gameState) {
-    // case PLAY:
-    //     if (lines->status > 0) {
-    //         // savedLineStatus = lines->status;
-    //         gameState = STOP;
-    //         startTime = millis();
-    //     } else {
-    //         attack();
-    //     }
-    //     break;
-
-    // case STOP:
-    //     if (t0 - startTime > STOP_TIME) {
-    //         gameState = LINE_REACT;
-    //         startTime = millis();
-    //     } else {
-    //         // driver->brake = true;
-    //     }
-    //     break;
-
-    // case LINE_REACT:
-    //         // lines->react(lines->status);
-
-    //     // if (t0 - startTime > LINE_REACT_TIME) {
-    //         gameState = PLAY;
-    //         // if (lines->status > 0) {
-    //         //     savedLineStatus = lines->status;
-    //         //     startTime = t0;
-    //         // } else {
-    //         //     // gameState = PLAY;
-    //         // }
-    //     // } else {
-    //         // lines->react(savedLineStatus);
-    //         // lines->react(lines->status);
-    //     // }
-    //     break;
-    
-    // default:
-    //     break;
     // }
+
+    // ADVANCED GAME LOGIC
+    unsigned long t0 = millis();
+    switch (gameState) {
+    case PLAY:
+        if (lines->status) {
+            lines->savedStatus = lines->status;
+            gameState = STOP;
+            startTime = t0;
+        } else {
+            attack();
+        }
+        break;
+
+    case STOP:
+        if (t0 - startTime > STOP_TIME) {
+            gameState = LINE_REACT;
+            startTime = t0;
+            driver->brake = false;
+        } else {
+            driver->brake = true;
+        }
+        break;
+
+    case LINE_REACT:
+        if (t0 - startTime > LINE_REACT_TIME) {
+            if (lines->status) {
+                lines->savedStatus = lines->status;
+                startTime = t0;
+            } else {
+                gameState = PLAY;
+            }
+        } else {
+            lines->react(lines->savedStatus);
+            // lines->react(lines->status);
+        }
+        break;
+    
+    default:
+        break;
+    }
 }

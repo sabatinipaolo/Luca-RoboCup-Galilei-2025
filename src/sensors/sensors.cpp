@@ -13,10 +13,15 @@ void initSensors() {
     compass = new BNO();
     ball = new Ball();
     lines = new Lines();
+    attackGoal = new Camera();
+    defenceGoal = new Camera();
 }
 
 void readSensors() {
     compass->read();
     ball->read();
     lines->read();
+    readMV();
+    attackGoal->update();
+    defenceGoal->update();
 }

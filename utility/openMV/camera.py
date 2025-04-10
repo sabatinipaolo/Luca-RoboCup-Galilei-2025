@@ -22,7 +22,7 @@ uart = UART(3,19200)
 # Y: (64, 100, -23, 21, 17, 127)
 # B: (39, 62, -8, 24, -128, -19)
 
-thresholds = [(79, 96, -15, 16, 27, 66),   #Yellow
+thresholds = [(77, 89, -10, 21, 26, 64),   #Yellow
               (47, 56, -8, 15, -44, -24)] #Blue
 
 #cx = 160-blob.cx()
@@ -38,6 +38,7 @@ sensor.skip_frames(time = 2000)
 sensor.set_auto_gain(False)
 sensor.set_auto_whitebal(False)
 clock = time.clock()
+pyb.LED(2).on()
 
 while(True):
     clock.tick()

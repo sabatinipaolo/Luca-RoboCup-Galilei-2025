@@ -4,6 +4,7 @@
 #include "game/game.h"
 
 void setup() {
+	delay(1000);
 	initSensors();
 	pinMode(LED_BUILTIN, OUTPUT); // LOW is ON, HIGH is OFF - Connected to switch2, avoid use
 }
@@ -17,4 +18,5 @@ void loop() {
 	// driver->move(0, 0, 0); // PID test
 	// driver->move(0, 50, 0); // Movement test
 	// driver->move(ball->absoluteAngle, 70, 0); // Ball test
+	// driver->move(0, 0, attackGoal->angle); // Camera test
 }

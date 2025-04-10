@@ -14,6 +14,7 @@
 #define PIN_W_INSIDE PA7
 #define PIN_W_OUTSIDE PA6
 
+// OLD: KEEP AROUND FOR A BIT, MAKE SURE THE NEW LINE LOGIC WORKS FIRST
 #ifdef ROCK
     #define LINES_THRESHOLD 70
 #else
@@ -23,8 +24,10 @@
 class Lines {
 public:
     // | N-IN | N-OUT || E-IN | E-OUT || S-IN | S-OUT || W-IN | W-OUT |
+    int thresholds[8];
     int values[8];
     byte status;
+    byte savedStatus;
 
     Lines();
     void read();
