@@ -1,6 +1,7 @@
 #pragma once
 #include <PID_v1.h>
-#include "./motors.h"
+#include <Arduino.h>
+#include "motors.h"
 
 #define KP 1.2
 #define KI 0.0 
@@ -21,6 +22,7 @@ public:
     //motors[3]: M4 BASSO-SX
     Motor* motors[4];
     int speed, dir, orient;
+    bool brake;
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);
     void move(int dir, int speed, int orient);

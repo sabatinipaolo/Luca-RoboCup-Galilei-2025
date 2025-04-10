@@ -1,5 +1,6 @@
 #pragma once
 #include <Arduino.h>
+#include "main.h"
 
 #define PIN_N_INSIDE PA5
 #define PIN_N_OUTSIDE PA4
@@ -13,8 +14,11 @@
 #define PIN_W_INSIDE PA7
 #define PIN_W_OUTSIDE PA6
 
-// #define LINES_THRESHOLD 350
-#define LINES_THRESHOLD 100
+#ifdef ROCK
+    #define LINES_THRESHOLD 70
+#else
+    #define LINES_THRESHOLD 100
+#endif
 
 class Lines {
 public:
@@ -25,5 +29,6 @@ public:
     Lines();
     void read();
     void react();
+    void react(byte status);
     void react(float* dirX, float* dirY);
 };

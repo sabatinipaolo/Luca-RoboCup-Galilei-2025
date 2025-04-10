@@ -1,10 +1,12 @@
+#include <Arduino.h>
 #include "sensors/lines.h"
 #include "sensors/sensors.h"
 #include "utility/utility.h"
 #include "game/game.h"
 
 Lines::Lines() {
-    read();
+    // COULD ADD AN AUTO THRESHOLD CODE
+    status = 0;
 }
 
 void Lines::read() {
@@ -18,35 +20,45 @@ void Lines::read() {
     values[7] = analogRead(PIN_W_OUTSIDE);
     
     status = 0;
-
     if(values[0] > LINES_THRESHOLD) status |= 0b10000000;
-    if(values[1] > LINES_THRESHOLD) status |= 0b01000000; // Lower the threshold for ROCK (250-300)
+    if(values[1] > LINES_THRESHOLD) status |= 0b01000000;
     if(values[2] > LINES_THRESHOLD) status |= 0b00100000;
     if(values[3] > LINES_THRESHOLD) status |= 0b00010000;
     if(values[4] > LINES_THRESHOLD) status |= 0b00001000;
     if(values[5] > LINES_THRESHOLD) status |= 0b00000100;
-    if(values[6] > LINES_THRESHOLD) status |= 0b00000010;
-    if(values[7] > LINES_THRESHOLD) status |= 0b00000001;
+    #ifdef ROCK
+        if(values[6] > 350) status |= 0b00000010;
+        if(values[7] > 350) status |= 0b00000001;
+    #else
+        if(values[6] > LINES_THRESHOLD) status |= 0b00000010;
+        if(values[7] > LINES_THRESHOLD) status |= 0b00000001;
+    #endif
 }
 
 void Lines::react() {
+    react(this->status);
+}
+
+void Lines::react(byte readStatus) {
     driver->speed = SPEED_LINE_REACT;
 
     int dirX = 0;
     int dirY = 0;
 
-    if (((status & 0b10000000) >> 7) == 1) dirY -= 100;
-    if (((status & 0b01000000) >> 6) == 1) dirY -= 150;
-    if (((status & 0b00100000) >> 5) == 1) dirX -= 100;
-    if (((status & 0b00010000) >> 4) == 1) dirX -= 150;
-    if (((status & 0b00001000) >> 3) == 1) dirY += 100;
-    if (((status & 0b00000100) >> 2) == 1) dirY += 150;
-    if (((status & 0b00000010) >> 1) == 1) dirX += 100;
-    if (((status & 0b00000001) >> 0) == 1) dirX += 150;
+    if (((readStatus & 0b10000000) >> 7) == 1) dirY -= 100;
+    if (((readStatus & 0b01000000) >> 6) == 1) dirY -= 150;
+    if (((readStatus & 0b00100000) >> 5) == 1) dirX -= 100;
+    if (((readStatus & 0b00010000) >> 4) == 1) dirX -= 150;
+    if (((readStatus & 0b00001000) >> 3) == 1) dirY += 100;
+    if (((readStatus & 0b00000100) >> 2) == 1) dirY += 150;
+    if (((readStatus & 0b00000010) >> 1) == 1) dirX += 100;
+    if (((readStatus & 0b00000001) >> 0) == 1) dirX += 150;
 
-    if (dirX >= 150 or dirX <= -150 or dirY >= 150 or dirY <= -150) driver->speed *= 1.5;
+    // if (dirX >= 150 or dirX <= -150 or dirY >= 150 or dirY <= -150) driver->speed *= 1.5;
 
-    driver->dir = toGrad(atan2(dirX, dirY));
+    double a = atan2((double) dirX, (double) dirY);
+    double d = degrees(a);
+    driver->dir = (int)d; //toGrad(atan2((double)dirX, (double)dirY));
 }
 
 void Lines::react(float* dirX, float* dirY) {

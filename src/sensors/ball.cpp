@@ -19,7 +19,7 @@ Ball::Ball() {
 
 void Ball::read() {
     while (BallSerial->available()) {
-        String message = BallSerial->readStringUntil('b');
+        String message = BallSerial->readStringUntil('b'); 
         relativeAngle = message.substring(message.lastIndexOf("B")+1, message.indexOf("-")).toInt();
         distance = message.substring(message.lastIndexOf("-")+1).toInt();
     }
@@ -31,6 +31,8 @@ void Ball::read() {
 
     distance = filter(distance, p_distance, 0.5);
     p_distance = distance;
+
+    seen = distance > 0;
 }
 
 void Ball::test() {

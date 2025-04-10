@@ -21,6 +21,7 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
     speed = 0;
     dir = 0;
     orient = 0;
+    brake = false;
 }
 
 void MovementController::move(int dir, int speed, int orient) {

@@ -63,14 +63,14 @@ void setup() {
 }
 
 void loop() {
-  if (millis() - sendTimer > 1000) {
+  if (millis() - sendTimer > 40) {
     readBallInterpolation();
-    printCounters();
-    printBall();
+    // printCounters();
+    // printBall();
     sendDataInterpolation();
 
     sendTimer = millis();
-    digitalWrite(PIN_LED[2], !digitalRead(PIN_LED[1]));    
+    // digitalWrite(PIN_LED[2], !digitalRead(PIN_LED[1]));    
   }
 }
 

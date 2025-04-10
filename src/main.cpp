@@ -11,7 +11,7 @@ void setup() {
 void loop() {
 	readSensors();
 	game();
-    driver->move();
+	driver->move();
 
 	// driver->test(); // Motors test
 	// driver->move(0, 0, 0); // PID test
