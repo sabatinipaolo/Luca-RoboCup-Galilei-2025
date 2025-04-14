@@ -16,7 +16,7 @@
 
 // OLD: KEEP AROUND FOR A BIT, MAKE SURE THE NEW LINE LOGIC WORKS FIRST
 #ifdef ROCK
-    #define LINES_THRESHOLD 70
+    #define LINES_THRESHOLD 70 // HOME
 #else
     #define LINES_THRESHOLD 100
 #endif
@@ -33,5 +33,5 @@ public:
     void read();
     void react();
     void react(byte status);
-    void react(float* dirX, float* dirY);
+    void react(float& dirX, float& dirY);
 };

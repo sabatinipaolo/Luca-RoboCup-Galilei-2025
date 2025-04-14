@@ -8,20 +8,20 @@
 #define LINE_CHECK 3
 
 #ifdef ROCK
-    #define SPEED_ATK 50
-    #define SPEED_LINE_REACT 50
-    #define MAX_SPEED_LINE_REACT 200
-
-    #define STOP_TIME 1000
-    #define LINE_REACT_TIME 500
-    #define LINE_CHECK_TIME 0
-#else
-    #define SPEED_ATK 70
-    #define SPEED_LINE_REACT 70
+    #define SPEED_ATK 35
+    #define SPEED_LINE_REACT 35
     #define MAX_SPEED_LINE_REACT 200
 
     #define STOP_TIME 20
-    #define LINE_REACT_TIME 100
+    #define LINE_REACT_TIME 350
+    #define LINE_CHECK_TIME 0
+#else
+    #define SPEED_ATK 35
+    #define SPEED_LINE_REACT 35
+    #define MAX_SPEED_LINE_REACT 200
+
+    #define STOP_TIME 20
+    #define LINE_REACT_TIME 300
     #define LINE_CHECK_TIME 0
 #endif
 

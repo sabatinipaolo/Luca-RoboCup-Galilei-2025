@@ -31,28 +31,29 @@ void readMV() {
             yellow_goal_angle = CameraSerial->parseInt();
             CameraSerial->read();
             yellow_goal_area = CameraSerial->parseInt();
+
+            if (digitalRead(GOAL_SWITCH_PIN) == YELLOW_GOAL) {
+                attackGoal->raw_angle = yellow_goal_angle;
+                attackGoal->raw_area = yellow_goal_area;
+            } else {
+                defenceGoal->raw_angle = yellow_goal_angle;
+                defenceGoal->raw_area = yellow_goal_area;
+            }
         } else if (byteLetto == 'B') {
             blue_goal_angle = CameraSerial->parseInt();
             CameraSerial->read();
             blue_goal_area = CameraSerial->parseInt();
-        }
 
-        if (byteLetto == 'Y' or byteLetto == 'B') {
-            if (digitalRead(GOAL_SWITCH_PIN) == YELLOW_GOAL) {
-                attackGoal->raw_angle = yellow_goal_angle;
-                attackGoal->raw_area = yellow_goal_area;
-
-                defenceGoal->raw_angle = blue_goal_angle;
-                defenceGoal->raw_area = blue_goal_area;
-            } else {
+            if (digitalRead(GOAL_SWITCH_PIN) == BLUE_GOAL) {
                 attackGoal->raw_angle = blue_goal_angle;
                 attackGoal->raw_area = blue_goal_area;
-
-                defenceGoal->raw_angle = yellow_goal_angle;
-                defenceGoal->raw_area = yellow_goal_area;
+            } else {
+                defenceGoal->raw_angle = blue_goal_angle;
+                defenceGoal->raw_area = blue_goal_area;
             }
         }
     }
+    ;
 }
 
 void Camera::update() {
@@ -63,7 +64,7 @@ void Camera::update() {
         angle = raw_angle;
         angle = filter_angle(angle, p_angle, 0.5);
         p_angle = angle;
-        angle = (ball->relativeAngle + angle) % 360;
+        angle = (compass->angle + angle) % 360;
 
         area = raw_area;
         area = filter(area, p_area, 0.5);

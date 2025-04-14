@@ -1,35 +1,16 @@
-import sensor, image, time, math, pyb
-from pyb import UART
+import sensor, time, math, pyb
 
-uart = UART(3,19200)
+uart = pyb.UART(3,19200)
 
-# ROLLER
-# CAMPO SX
-# Y: (57, 92, 4, 28, 27, 127)
-# B: (44, 74, -17, 0, -54, -21)
+# ROBOCUP JR PESCARA
+thresholds = [(55, 80, 3, 35, 13, 127),     # YELLOW
+              (47, 68, -13, 10, -128, -21)] # BLUE
 
+# cx = 160-blob.cx()
+# cy = 120-blob.cy()
 
-# RICK
-# CAMPO SX
-# Y: (83, 100, -26, 31, 24, 127)
-# B: (46, 76, -19, 2, -53, -17)
-
-# ROCK
-# Y: (66, 100, -15, 3, 17, 127)
-# B: (39, 62, -8, 24, -128, -19)
-
-# ROLL
-# Y: (64, 100, -23, 21, 17, 127)
-# B: (39, 62, -8, 24, -128, -19)
-
-thresholds = [(77, 89, -10, 21, 26, 64),   #Yellow
-              (47, 56, -8, 15, -44, -24)] #Blue
-
-#cx = 160-blob.cx()
-#cy = 120-blob.cy()
-
-camcx = 178
-camcy = 130
+camcx = 160 # 178
+camcy = 120 # 130
 
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
@@ -38,7 +19,10 @@ sensor.skip_frames(time = 2000)
 sensor.set_auto_gain(False)
 sensor.set_auto_whitebal(False)
 clock = time.clock()
+
+pyb.LED(1).on()
 pyb.LED(2).on()
+pyb.LED(3).on()
 
 while(True):
     clock.tick()
@@ -47,6 +31,7 @@ while(True):
     blueFound = False
 
     img = sensor.snapshot()
+    img.draw_cross(camcx, camcy)
 
     blobYellow = [(0, 0, 0)]
     blobBlue = [(0, 0, 0)]
@@ -94,6 +79,3 @@ while(True):
 
     uart.write(data)
     print(data)
-
-
-

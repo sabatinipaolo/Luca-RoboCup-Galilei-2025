@@ -10,7 +10,7 @@ void setup() {
 }
 
 void loop() {
-	readSensors();
+   	readSensors();
 	game();
 	driver->move();
 

@@ -5,18 +5,43 @@
 #include "game/game.h"
 
 Lines::Lines() {
-    for (int i=0; i<8; i++) thresholds[i] = 0;
-    for (int i=0; i<16; i++) {
-        thresholds[0] = max(thresholds[0], (int)analogRead(PIN_N_INSIDE));
-        thresholds[1] = max(thresholds[1], (int)analogRead(PIN_N_OUTSIDE));
-        thresholds[2] = max(thresholds[2], (int)analogRead(PIN_E_INSIDE));
-        thresholds[3] = max(thresholds[3], (int)analogRead(PIN_E_OUTSIDE));
-        thresholds[4] = max(thresholds[4], (int)analogRead(PIN_S_INSIDE));
-        thresholds[5] = max(thresholds[5], (int)analogRead(PIN_S_OUTSIDE));
-        thresholds[6] = max(thresholds[6], (int)analogRead(PIN_W_INSIDE));
-        thresholds[7] = max(thresholds[7], (int)analogRead(PIN_W_OUTSIDE));
-    }
-    for (int i=0; i<8; i++) thresholds[i] += 25;
+    // for (int i=0; i<8; i++) thresholds[i] = 0;
+    // for (int i=0; i<16; i++) {
+    //     thresholds[0] = max(thresholds[0], (int)analogRead(PIN_N_INSIDE));
+    //     thresholds[1] = max(thresholds[1], (int)analogRead(PIN_N_OUTSIDE));
+    //     thresholds[2] = max(thresholds[2], (int)analogRead(PIN_E_INSIDE));
+    //     thresholds[3] = max(thresholds[3], (int)analogRead(PIN_E_OUTSIDE));
+    //     thresholds[4] = max(thresholds[4], (int)analogRead(PIN_S_INSIDE));
+    //     thresholds[5] = max(thresholds[5], (int)analogRead(PIN_S_OUTSIDE));
+    //     thresholds[6] = max(thresholds[6], (int)analogRead(PIN_W_INSIDE));
+    //     thresholds[7] = max(thresholds[7], (int)analogRead(PIN_W_OUTSIDE));
+    // }
+    // for (int i=0; i<8; i++) thresholds[i] += 25;
+    #ifdef ROCK
+        thresholds[0] = 200;
+        thresholds[1] = 300;
+        
+        thresholds[2] = 1000;
+        thresholds[3] = 150;
+
+        thresholds[4] = 170;
+        thresholds[5] = 200;
+
+        thresholds[6] = 500;
+        thresholds[7] = 500;
+    #else
+        thresholds[0] = 100;
+        thresholds[1] = 400; // 200
+        
+        thresholds[2] = 200;
+        thresholds[3] = 400;
+
+        thresholds[4] = 175;
+        thresholds[5] = 175;
+
+        thresholds[6] = 350;
+        thresholds[7] = 350;
+    #endif
     status = 0;
 }
 
@@ -31,29 +56,33 @@ void Lines::read() {
     values[7] = analogRead(PIN_W_OUTSIDE);
     
     status = 0;
-    // if(values[0] > thresholds[0]) status |= 0b10000000;
-    // if(values[1] > thresholds[1]) status |= 0b01000000;
-    // if(values[2] > thresholds[2]) status |= 0b00100000;
-    // if(values[3] > thresholds[3]) status |= 0b00010000;
-    // if(values[4] > thresholds[4]) status |= 0b00001000;
-    // if(values[5] > thresholds[5]) status |= 0b00000100;
-    // if(values[6] > thresholds[6]) status |= 0b00000010;
-    // if(values[7] > thresholds[7]) status |= 0b00000001;
-    
-    // OLD: KEEP AROUND FOR A BIT, MAKE SURE THE NEW LINE LOGIC WORKS FIRST
-    if(values[0] > LINES_THRESHOLD) status |= 0b10000000;
-    if(values[1] > LINES_THRESHOLD) status |= 0b01000000;
-    if(values[2] > LINES_THRESHOLD) status |= 0b00100000;
-    if(values[3] > LINES_THRESHOLD) status |= 0b00010000;
-    if(values[4] > LINES_THRESHOLD) status |= 0b00001000;
-    if(values[5] > LINES_THRESHOLD) status |= 0b00000100;
+    if(values[0] > thresholds[0]) status |= 0b10000000;
     #ifdef ROCK
-        if(values[6] > 350) status |= 0b00000010;
-        if(values[7] > 350) status |= 0b00000001;
+    if(values[1] > thresholds[1]) status |= 0b01000000;
     #else
-        if(values[6] > LINES_THRESHOLD) status |= 0b00000010;
-        if(values[7] > LINES_THRESHOLD) status |= 0b00000001;
+    if(values[1] > thresholds[1]) status |= 0b01000000;
     #endif
+    if(values[2] > thresholds[2]) status |= 0b00100000;
+    if(values[3] > thresholds[3]) status |= 0b00010000;
+    if(values[4] > thresholds[4]) status |= 0b00001000;
+    if(values[5] > thresholds[5]) status |= 0b00000100;
+    if(values[6] > thresholds[6]) status |= 0b00000010;
+    if(values[7] > thresholds[7]) status |= 0b00000001;
+
+    // OLD: KEEP AROUND FOR A BIT, MAKE SURE THE NEW LINE LOGIC WORKS FIRST
+    // if(values[0] > LINES_THRESHOLD) status |= 0b10000000;
+    // if(values[1] > LINES_THRESHOLD) status |= 0b01000000;
+    // if(values[2] > LINES_THRESHOLD) status |= 0b00100000;
+    // if(values[3] > LINES_THRESHOLD) status |= 0b00010000;
+    // if(values[4] > LINES_THRESHOLD) status |= 0b00001000;
+    // if(values[5] > LINES_THRESHOLD) status |= 0b00000100;
+    // #ifdef ROCK
+    //     if(values[6] > 350) status |= 0b00000010;
+    //     if(values[7] > 350) status |= 0b00000001;
+    // #else
+    //     if(values[6] > LINES_THRESHOLD) status |= 0b00000010;
+    //     if(values[7] > LINES_THRESHOLD) status |= 0b00000001;
+    // #endif
 }
 
 void Lines::react() {
@@ -82,7 +111,7 @@ void Lines::react(byte readStatus) {
     driver->dir = (int)d; //toGrad(atan2((double)dirX, (double)dirY));
 }
 
-void Lines::react(float* dirX, float* dirY) {
+void Lines::react(float& dirX, float& dirY) {
     driver->speed = SPEED_LINE_REACT;
 
     if (((status & 0b10000000) >> 7) == 1) dirY -= 100;

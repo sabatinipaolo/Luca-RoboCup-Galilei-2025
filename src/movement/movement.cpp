@@ -3,6 +3,8 @@
 #include "sensors/lines.h"
 #include "utility/utility.h"
 
+#include "game/game.h"
+
 MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3) {
     //Motors init
     motors[0] = m0;
@@ -29,6 +31,20 @@ void MovementController::move(int dir, int speed, int orient) {
     double r_dir = toRad(dir);
     float vx = speed * cos(r_dir);
     float vy = -speed * sin(r_dir);
+
+    // if (lines->status) lines->react(vy, vx);
+
+    // static unsigned long startTime = -LINE_REACT_TIME;
+    // unsigned long t0 = millis();
+    // if (t0 - startTime >= LINE_REACT_TIME) {
+    //     if (lines->status) {
+    //         lines->savedStatus = lines->status;
+    //         startTime = t0;
+    //     }
+    // } else {
+    //     lines->status = lines->savedStatus;
+    //     lines->react(vy, vx);
+    // }
 
     float motorSpeed[4];
     motorSpeed[0] = (vx * motors[0]->ANGLE_SIN) + (vy * motors[0]->ANGLE_COS);
