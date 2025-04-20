@@ -1,5 +1,5 @@
-#include "movement/motors.h"
-#include "utility/utility.h"
+#include "actuators/motors.h"
+#include "utility/transformations.h"
 #include <Arduino.h>
 
 Motor::Motor(int a, int b, int pwm, int ANGLE){

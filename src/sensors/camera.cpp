@@ -1,23 +1,14 @@
 #include <Arduino.h>
 #include "sensors/sensors.h"
 #include "sensors/camera.h"
-#include "utility/utility.h"
+#include "utility/filters.h"
+#include "config.h"
 
 Camera::Camera() {
-    pinMode(GOAL_SWITCH_PIN, INPUT);
+    CameraSerial = new HardwareSerial(Pins::CAMERA_RX, Pins::CAMERA_TX);
+    pinMode(Pins::GOAL_SWITCH, INPUT);
 
-    CameraSerial = new HardwareSerial(CAMERA_RX, CAMERA_TX);
     CameraSerial->begin(19200);
-
-    angle = 999;
-    p_angle = 0;
-    raw_angle = 999;
-
-    area = 999;
-    p_area = 0;
-    raw_area = 999;
-
-    seen = false;
 }
 
 void readMV() {
@@ -32,28 +23,27 @@ void readMV() {
             CameraSerial->read();
             yellow_goal_area = CameraSerial->parseInt();
 
-            if (digitalRead(GOAL_SWITCH_PIN) == YELLOW_GOAL) {
-                attackGoal->raw_angle = yellow_goal_angle;
-                attackGoal->raw_area = yellow_goal_area;
+            if (digitalRead(Pins::GOAL_SWITCH) == YELLOW_GOAL) {
+                attack_goal->raw_angle = yellow_goal_angle;
+                attack_goal->raw_area = yellow_goal_area;
             } else {
-                defenceGoal->raw_angle = yellow_goal_angle;
-                defenceGoal->raw_area = yellow_goal_area;
+                defence_goal->raw_angle = yellow_goal_angle;
+                defence_goal->raw_area = yellow_goal_area;
             }
         } else if (byteLetto == 'B') {
             blue_goal_angle = CameraSerial->parseInt();
             CameraSerial->read();
             blue_goal_area = CameraSerial->parseInt();
 
-            if (digitalRead(GOAL_SWITCH_PIN) == BLUE_GOAL) {
-                attackGoal->raw_angle = blue_goal_angle;
-                attackGoal->raw_area = blue_goal_area;
+            if (digitalRead(Pins::GOAL_SWITCH) == BLUE_GOAL) {
+                attack_goal->raw_angle = blue_goal_angle;
+                attack_goal->raw_area = blue_goal_area;
             } else {
-                defenceGoal->raw_angle = blue_goal_angle;
-                defenceGoal->raw_area = blue_goal_area;
+                defence_goal->raw_angle = blue_goal_angle;
+                defence_goal->raw_area = blue_goal_area;
             }
         }
     }
-    ;
 }
 
 void Camera::update() {

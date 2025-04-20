@@ -7,7 +7,7 @@ private:
     int STARTING_ANGLE, p_angle;
 
 public:
-    int angle;
+    int angle{0};
     BNO();
     void read();
 };

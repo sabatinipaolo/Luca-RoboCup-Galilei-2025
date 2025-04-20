@@ -1,17 +1,13 @@
 #pragma once
 
-#define BALL_TX PB10
-#define BALL_RX PB11
-
 class Ball {
 private:
-    int p_angle, p_distance;
+    int p_angle{0}, p_distance{0};
 
 public:
-    int relativeAngle, absoluteAngle, distance;
-    bool seen;
+    int relative_angle{0}, absolute_angle{0}, distance{0};
+    bool seen{false};
 
     Ball();
     void read();
-    void test();
 };

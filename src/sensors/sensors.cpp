@@ -1,27 +1,20 @@
 #define SENSORS
 
 #include "sensors/sensors.h"
-#include "movement/movement.h"
 
-void initSensors() {
-    driver = new MovementController(
-        new Motor(PIN_A_0, PIN_B_0, PIN_VEL_0, 305), //M1 ALTO/SX
-        new Motor(PIN_A_1, PIN_B_1, PIN_VEL_1, 55), //M2 ALTO/DX
-        new Motor(PIN_A_2, PIN_B_2, PIN_VEL_2, 135), //M3 BASSO/DX
-        new Motor(PIN_A_3, PIN_B_3, PIN_VEL_3, 225) //M4 BASSO/SX
-    );
+void init_sensors() {
     compass = new BNO();
-    ball = new Ball();
     lines = new Lines();
-    attackGoal = new Camera();
-    defenceGoal = new Camera();
+    ball = new Ball();
+    attack_goal = new Camera();
+    defence_goal = new Camera();
 }
 
-void readSensors() {
+void read_sensors() {
     compass->read();
-    ball->read();
     lines->read();
+    ball->read();
     readMV();
-    attackGoal->update();
-    defenceGoal->update();
+    attack_goal->update();
+    defence_goal->update();
 }

@@ -6,6 +6,17 @@
         "cmath": "cpp",
         "iosfwd": "cpp",
         "limits": "cpp",
-        "streambuf": "cpp"
+        "streambuf": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "functional": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "ostream": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp"
     }
 }

@@ -1,5 +1,5 @@
 #include "sensors/bno.h"
-#include "utility/utility.h"
+#include "utility/filters.h"
 
 BNO::BNO() {
     bno = Adafruit_BNO055(55, 0x28);
@@ -9,7 +9,6 @@ BNO::BNO() {
     
     imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
     STARTING_ANGLE = euler.x();
-    int angle = 0;
 }
 
 void BNO::read() {

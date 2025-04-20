@@ -1,17 +1,6 @@
 #include <Arduino.h>
-#include "../include/utility/utility.h"
-
-double toGrad(double radianti) {
-	double gradi;
-	gradi = (180.0 * radianti) / PI;
-	return gradi;
-}
-
-double toRad(double gradi) {
-	double radianti;
-	radianti = (PI * gradi) / 180.0;
-	return radianti;
-}
+#include "utility/filters.h"
+#include "utility/transformations.h"
 
 int filter(float valA, float valP, float k) { //0<k<1
 	int val0 = (k * valA) + ((1 - k) * valP);

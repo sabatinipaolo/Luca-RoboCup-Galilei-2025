@@ -1,62 +1,43 @@
-#include "movement/movement.h"
 #include "sensors/sensors.h"
-#include "sensors/lines.h"
-#include "utility/utility.h"
-
-#include "game/game.h"
+#include "utility/transformations.h"
+#include "control/control.h"
+#include "control/movement.h"
 
 MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3) {
-    //Motors init
+    // Motors init
     motors[0] = m0;
     motors[1] = m1;
     motors[2] = m2;
     motors[3] = m3;
 
-    //PID init
+    // PID init
     pid = new PID(&input, &output, &setPoint, KP, KI, KD, DIRECT);
     pid->SetSampleTime(2);
-    // pid->setAngleWrap(true);
     pid->SetOutputLimits(-255, 255);
     pid->SetMode(AUTOMATIC);
     pid->SetControllerDirection(DIRECT);
-
-    speed = 0;
-    dir = 0;
-    orient = 0;
-    brake = false;
 }
 
-void MovementController::move(int dir, int speed, int orient) {
-    //Motor movement
+// Keep in mind that dx indicates forward/backward movement, while dy indicates left/right movement
+void MovementController::move(int dir, int dx, int dy, int speed, int orient, bool brake) {
+    // Motor movement
     double r_dir = toRad(dir);
-    float vx = speed * cos(r_dir);
-    float vy = -speed * sin(r_dir);
-
-    // if (lines->status) lines->react(vy, vx);
-
-    // static unsigned long startTime = -LINE_REACT_TIME;
-    // unsigned long t0 = millis();
-    // if (t0 - startTime >= LINE_REACT_TIME) {
-    //     if (lines->status) {
-    //         lines->savedStatus = lines->status;
-    //         startTime = t0;
-    //     }
-    // } else {
-    //     lines->status = lines->savedStatus;
-    //     lines->react(vy, vx);
-    // }
+    float dirX = speed * cos(r_dir) + dx;
+    float dirY = -(speed * sin(r_dir) + dy);
 
     float motorSpeed[4];
-    motorSpeed[0] = (vx * motors[0]->ANGLE_SIN) + (vy * motors[0]->ANGLE_COS);
-    motorSpeed[1] = (vx * motors[1]->ANGLE_SIN) + (vy * motors[1]->ANGLE_COS);
-    motorSpeed[2] = (vx * motors[2]->ANGLE_SIN) + (vy * motors[2]->ANGLE_COS);
-    motorSpeed[3] = (vx * motors[3]->ANGLE_SIN) + (vy * motors[3]->ANGLE_COS);
+    motorSpeed[0] = (dirX * motors[0]->ANGLE_SIN) + (dirY * motors[0]->ANGLE_COS);
+    motorSpeed[1] = (dirX * motors[1]->ANGLE_SIN) + (dirY * motors[1]->ANGLE_COS);
+    motorSpeed[2] = (dirX * motors[2]->ANGLE_SIN) + (dirY * motors[2]->ANGLE_COS);
+    motorSpeed[3] = (dirX * motors[3]->ANGLE_SIN) + (dirY * motors[3]->ANGLE_COS);
 
-    //PID
+    // PID
     input = (compass->angle > 180) ? compass->angle - 360.0 : compass->angle;
     setPoint = (orient > 180) ? orient - 360.0 : orient;
 
-    double offsetPid = (pid->Compute()) ? -output : 0;
+    static double offsetPid = 0;
+    if(pid->Compute()) offsetPid = -output;
+    
     motorSpeed[0] += offsetPid;
     motorSpeed[1] += offsetPid;
     motorSpeed[2] += offsetPid;
@@ -67,7 +48,7 @@ void MovementController::move(int dir, int speed, int orient) {
     motorSpeed[2] = constrain(motorSpeed[2], -255, 255);
     motorSpeed[3] = constrain(motorSpeed[3], -255, 255);
 
-    //Drive motors
+    // Drive motors
     motors[0]->drive(motorSpeed[0]);
     motors[1]->drive(motorSpeed[1]);
     motors[2]->drive(motorSpeed[2]);
@@ -76,8 +57,12 @@ void MovementController::move(int dir, int speed, int orient) {
     if (brake) stop();
 }
 
+void MovementController::move(int dir, int speed, int orient, bool brake) {
+    move(dir, 0, 0, speed, orient, brake);
+}
+
 void MovementController::move() {
-    move(dir, speed, orient);
+    move(this->dir, this->dx, this->dy, this->speed, this->orient, this->brake);
 }
 
 void MovementController::stop() {
