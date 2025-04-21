@@ -4,48 +4,49 @@
 #include "behavior/bounds.h"
 
 void striker() {
+    #ifdef POLAR
     #ifdef BASIC
     if (lines->status > 0) line_react(lines->status);
     else attack();
     #endif
 
     #ifdef INTERMEDIATE
-    static unsigned long startTime = -LINE_REACT_TIME;
+    static unsigned long start_time = -LINE_REACT_TIME;
     unsigned long t0 = millis();
     static byte saved_status;
 
-    if (t0 - startTime >= LINE_REACT_TIME) {
+    if (t0 - start_time >= LINE_REACT_TIME) {
         if (lines->status) {
             saved_status = lines->status;
-            startTime = t0;
+            start_time = t0;
         } else {
-            return attack();
+            attack();
         }
     } else {
-        return line_react(saved_status);
+        line_react(saved_status);
     }
     #endif
 
     #ifdef ADVANCED
-    static unsigned long startTime = -LINE_REACT_TIME;
+    static unsigned long start_time;
     unsigned long t0 = millis();
-    static byte gameState = PLAY, saved_status;
+    static byte game_state = PLAY, saved_status;
     
-    switch (gameState) {
+    switch (game_state) {
     case PLAY:
         if (lines->status) {
             saved_status = lines->status;
-            gameState = STOP;
-            startTime = t0;
+            game_state = STOP;
+            start_time = t0;
         } else {
             attack();
         }
         break;
 
     case STOP:
-        if (t0 - startTime > STOP_TIME) {
-            gameState = LINE_REACT;
-            startTime = t0;
+        if (t0 - start_time > STOP_TIME) {
+            game_state = LINE_REACT;
+            start_time = t0;
             driver->brake = false;
         } else {
             driver->brake = true;
@@ -53,14 +54,63 @@ void striker() {
         break;
 
     case LINE_REACT:
-        if (t0 - startTime > LINE_REACT_TIME) {
+        if (t0 - start_time > LINE_REACT_TIME) {
             if (lines->status) {
                 saved_status = lines->status;
-                startTime = t0;
+                start_time = t0;
             } else {
-                gameState = PLAY;
+                game_state = PLAY;
             }
         } else {
+            line_react(saved_status);
+        }
+        break;
+    
+    default:
+        break;
+    }
+    #endif
+
+    #endif
+
+    #ifdef CARTESIAN
+    static unsigned long start_time;
+    unsigned long t0 = millis();
+    static byte game_state = PLAY, saved_status;
+    
+    switch (game_state) {
+    case PLAY:
+        if (lines->status) {
+            saved_status = lines->status;
+            game_state = STOP;
+            start_time = t0;
+        } else {
+            attack();
+        }
+        break;
+
+    case STOP:
+        if (t0 - start_time > STOP_TIME) {
+            game_state = LINE_REACT;
+            start_time = t0;
+            driver->brake = false;
+        } else {
+            driver->brake = true;
+        }
+        break;
+
+    case LINE_REACT:
+        if (t0 - start_time > LINE_REACT_TIME) {
+            if (lines->status) {
+                saved_status = lines->status;
+                start_time = t0;
+            } else {
+                game_state = PLAY;
+                driver->dx = 0;
+                driver->dy = 0;
+            }
+        } else {
+            attack();
             line_react(saved_status);
         }
         break;
@@ -73,6 +123,7 @@ void striker() {
 
 void attack() {
     driver->speed = SPEED_ATK;
+    driver->orient = 0;
 
     // BALL
     #ifdef ROCK
@@ -95,11 +146,11 @@ void attack() {
     }
 
     // CAMERA
-    if (attack_goal->seen) {
-        driver->orient = attack_goal->angle + 8;
-        if (driver->orient > 45 and driver->orient < 180) driver->orient = 45;
-        if (driver->orient < 315 and driver->orient > 180) driver->orient = 315;
-    } else {
-        driver->orient = 0;
-    }
+    // if (attack_goal->seen) {
+    //     driver->orient = attack_goal->angle + 8;
+    //     if (driver->orient > 45 and driver->orient < 180) driver->orient = 45;
+    //     if (driver->orient < 315 and driver->orient > 180) driver->orient = 315;
+    // } else {
+    //     driver->orient = 0;
+    // }
 }

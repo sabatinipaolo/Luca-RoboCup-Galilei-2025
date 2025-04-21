@@ -1,8 +1,8 @@
 #pragma once
 
 #define SPEED_ATK 35
-#define STOP_TIME 20
-#define LINE_REACT_TIME 350
+#define STOP_TIME 1000
+#define LINE_REACT_TIME 1000
 
 // STATES
 #define PLAY 0

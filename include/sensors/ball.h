@@ -1,5 +1,7 @@
 #pragma once
 
+#define BALL_CLOSE 10
+
 class Ball {
 private:
     int p_angle{0}, p_distance{0};

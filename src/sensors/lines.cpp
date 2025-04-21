@@ -10,7 +10,7 @@ Lines::Lines() {
     thresholds[4] = 170; thresholds[5] = 200;
     thresholds[6] = 500; thresholds[7] = 500;
     #else
-    thresholds[0] = 100; thresholds[1] = 400; 
+    thresholds[0] = 1000000; thresholds[1] = 400; 
     thresholds[2] = 200; thresholds[3] = 400;
     thresholds[4] = 175; thresholds[5] = 175;
     thresholds[6] = 350; thresholds[7] = 350;

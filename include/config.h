@@ -2,8 +2,8 @@
 
 #include <Arduino.h>
 
-#define ROCK
-// #define ROLL
+// #define ROCK
+#define ROLL
 
 namespace Pins {
     // MOTOR DRIVERS

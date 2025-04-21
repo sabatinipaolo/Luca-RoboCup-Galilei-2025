@@ -18,7 +18,6 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
     pid->SetControllerDirection(DIRECT);
 }
 
-// Keep in mind that dx indicates forward/backward movement, while dy indicates left/right movement
 void MovementController::move(int dir, int dx, int dy, int speed, int orient, bool brake) {
     // Motor movement
     double r_dir = toRad(dir);
