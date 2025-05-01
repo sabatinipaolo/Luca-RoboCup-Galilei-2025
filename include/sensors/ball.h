@@ -1,6 +1,6 @@
 #pragma once
 
-#define BALL_CLOSE 10
+#define BALL_CLOSE 400
 
 class Ball {
 private:

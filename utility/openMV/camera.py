@@ -2,9 +2,8 @@ import sensor, time, math, pyb
 
 uart = pyb.UART(3,19200)
 
-# ROBOCUP JR PESCARA
-thresholds = [(55, 80, 3, 35, 13, 127),     # YELLOW
-              (47, 68, -13, 10, -128, -21)] # BLUE
+thresholds = [(55, 100, 3, 35, 13, 127),    # YELLOW
+              (0, 100, -128, 40, -128, -17)] # BLUE
 
 # cx = 160-blob.cx()
 # cy = 120-blob.cy()

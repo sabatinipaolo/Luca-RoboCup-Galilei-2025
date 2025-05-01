@@ -5,9 +5,8 @@
 #include "config.h"
 
 Camera::Camera() {
-    CameraSerial = new HardwareSerial(Pins::CAMERA_RX, Pins::CAMERA_TX);
     pinMode(Pins::GOAL_SWITCH, INPUT);
-
+    CameraSerial = new HardwareSerial(Pins::CAMERA_RX, Pins::CAMERA_TX);
     CameraSerial->begin(19200);
 }
 
@@ -68,17 +67,4 @@ void Camera::update() {
         angle = 999;
         area = -1;
     }
-
-    // WHY DOES THIS EXIST, IF SOMETHING ISN'T WORKING, TRY TURNING IT ON
-    // if (angoloPortaAttacco <= 360) {
-    //     if (angoloPortaAttacco < 90) angoloPortaAttacco *= 1.5;
-
-    //     angoloPortaAttacco = filtroAngolo(angoloPortaAttacco, angoloPortaAttaccoPasta, 0.1);
-    //     angoloPortaAttaccoPasta = angoloPortaAttacco;
-    // }
-
-    // if (angoloPortaDifesa <= 360) {
-    //     angoloPortaDifesa = filtroAngolo(angoloPortaDifesa, angoloPortaDifesaPasta, 0.1);
-    //     angoloPortaDifesaPasta = angoloPortaDifesa;
-    // }
 }

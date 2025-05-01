@@ -44,5 +44,7 @@ namespace Pins {
     constexpr int CAMERA_RX = PA10;
 
     // SWITCHES
-    constexpr int GOAL_SWITCH = PC13;
+    constexpr int SWITCH_1 = PC14;
+    constexpr int SWITCH_2 = PC13;
+    constexpr int SWITCH_3 = PC15;
 }

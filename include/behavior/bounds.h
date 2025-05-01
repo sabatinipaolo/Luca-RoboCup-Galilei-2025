@@ -1,7 +1,7 @@
 #pragma once
 
-// #define POLAR
-#define CARTESIAN
+#define POLAR
+// #define CARTESIAN
 
 #define SPEED_LINE_REACT 50
 

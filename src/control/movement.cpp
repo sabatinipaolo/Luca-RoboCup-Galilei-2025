@@ -24,6 +24,9 @@ void MovementController::move(int dir, int dx, int dy, int speed, int orient, bo
     float dirX = speed * cos(r_dir) + dx;
     float dirY = -(speed * sin(r_dir) + dy);
 
+    this->dx = 0;
+    this->dy = 0;
+
     float motorSpeed[4];
     motorSpeed[0] = (dirX * motors[0]->ANGLE_SIN) + (dirY * motors[0]->ANGLE_COS);
     motorSpeed[1] = (dirX * motors[1]->ANGLE_SIN) + (dirY * motors[1]->ANGLE_COS);

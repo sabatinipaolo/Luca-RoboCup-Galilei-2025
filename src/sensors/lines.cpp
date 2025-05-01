@@ -5,15 +5,31 @@
 
 Lines::Lines() {
     #ifdef ROCK
-    thresholds[0] = 200; thresholds[1] = 300;
-    thresholds[2] = 999; thresholds[3] = 150;
-    thresholds[4] = 170; thresholds[5] = 200;
-    thresholds[6] = 500; thresholds[7] = 500;
+    thresholds[0] = 300; //250-400
+    thresholds[1] = 300; //70-530
+    
+    thresholds[2] = 30000; //35-340
+    thresholds[3] = 27500; //25-290
+    
+    thresholds[4] = 200; //35-400
+    thresholds[5] = 200; //35-360
+    
+    thresholds[6] = 500; //150-970
+    thresholds[7] = 500; //140-970
+    
     #else
-    thresholds[0] = 1000000; thresholds[1] = 400; 
-    thresholds[2] = 200; thresholds[3] = 400;
-    thresholds[4] = 175; thresholds[5] = 175;
-    thresholds[6] = 350; thresholds[7] = 350;
+    thresholds[0] = 1000000; //90-500
+    thresholds[1] = 400; //70-620
+    
+    thresholds[2] = 200; //35-390
+    thresholds[3] = 400; //65-720
+    
+    thresholds[4] = 120; //35-340
+    thresholds[5] = 120; //55-570
+    
+    thresholds[6] = 350; //70-920
+    thresholds[7] = 350; //60-680
+    
     #endif
 }
 
