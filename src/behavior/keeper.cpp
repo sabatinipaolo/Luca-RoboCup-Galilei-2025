@@ -2,7 +2,7 @@
 #include "sensors/sensors.h"
 #include "control/control.h"
 #include "behavior/bounds.h"
-#include "behavior/striker.h"
+#include "behavior/behavior.h"
 #include "behavior/keeper.h"
 
 void keeper() {
@@ -15,7 +15,6 @@ void keeper() {
         if (lines->status) {
             game_state = DEFEND;
             start_time = t0;
-            driver->speed = 0;
         } else {
             goto_goal();
         }
@@ -23,7 +22,8 @@ void keeper() {
 
     case DEFEND:
         if (ball->seen and ball->distance > BALL_CLOSE) {
-            game_state = GET_IN_ACTION;
+            game_state = PARRY;
+            start_time = t0;
         } else if (t0 - start_time > IDLE_TIME) {
             game_state = RESET;
         } else {
@@ -32,19 +32,9 @@ void keeper() {
         }
         break;
 
-    case GET_IN_ACTION:
-        if (!lines->status) {
-            game_state = PARRY;
-            start_time = t0;
-        } else {
-            save();
-        }
-        break;
-
     case PARRY:
-        if (lines->status or ball->distance > BALL_CLOSE or t0 - start_time > SAVE_TIME) {
+        if (ball->distance < BALL_CLOSE or t0 - start_time > SAVE_TIME) {
             game_state = RESET;
-            // start_time = t0;
         } else {
             save();
         }
@@ -57,7 +47,7 @@ void keeper() {
 
 void goto_goal() {
     driver->orient = 0;
-    driver->speed = SPEED_ATK;
+    driver->speed = SETUP_SPEED;
 
     if (!defence_goal->seen) driver->dir = 180;
     else if (defence_goal->angle > 90 and defence_goal->angle < 160) driver->dir = 55;
@@ -67,19 +57,23 @@ void goto_goal() {
 
 void defend() {
     // driver->orient = (defence_goal->angle + 180) % 360;
+    // driver->orient = (ball->seen) ? ball->absolute_angle : 0;
     driver->orient = 0;
+    driver->absolute = true;
     driver->speed = 0;
-    stay_on_line(lines->status);
 
-    if (ball->absolute_angle < 90) driver->dy = map(ball->absolute_angle, 0, 90, SPEED_ATK, SPEED_ATK*4);
-    if (ball->absolute_angle > 270) driver->dy = -map(ball->absolute_angle, 270, 360, SPEED_ATK*4, SPEED_ATK);
-    if (!ball->seen or defence_goal->angle > 220 or defence_goal->angle < 140) driver->dy = 0;
+    if (!ball->seen or (ball->absolute_angle > 10 and ball->absolute_angle < 350)) stay_on_line(lines->status);
+
+    if (ball->absolute_angle < 90) driver->dy = map(ball->absolute_angle, 0, 90, GAME_SPEED/2, GAME_SPEED*4);
+    if (ball->absolute_angle > 270) driver->dy = -map(ball->absolute_angle, 270, 360, GAME_SPEED*4, GAME_SPEED/2);
+    if (!ball->seen or defence_goal->angle > 220 or defence_goal->angle < 140 ) driver->dy = 0;
 }
 
 void save() {
-    driver->dir = ball->absolute_angle;
-    driver->speed = SPEED_ATK;
-    driver->orient = ball->absolute_angle;
-    if (driver->orient > 90 and driver->orient <= 180) driver->orient = 90;
-    if (driver->orient < 270 and driver->orient > 180) driver->orient = 270;
+    driver->speed = GAME_SPEED;
+    driver->orient = 0;
+
+    if      (ball->absolute_angle < 90)  driver->dir = ball->absolute_angle * 1.5;
+    else if (ball->absolute_angle > 270) driver->dir = (360 - ((360 - ball->relative_angle) * 1.5));
+    else driver->speed = 0;
 }

@@ -1,5 +1,6 @@
 #include "sensors/sensors.h"
 #include "control/control.h"
+#include "behavior/behavior.h"
 #include "behavior/striker.h"
 #include "behavior/bounds.h"
 #include "config.h"
@@ -24,7 +25,6 @@ void striker() {
         if (t0 - start_time > STOP_TIME) {
             game_state = LINE_REACT;
             start_time = t0;
-            driver->brake = false;
         } else {
             driver->brake = true;
         }
@@ -52,7 +52,7 @@ void striker() {
 }
 
 void attack() {
-    driver->speed = SPEED_ATK;
+    driver->speed = GAME_SPEED;
     driver->orient = 0;
 
     // BALL
@@ -71,7 +71,7 @@ void attack() {
     #endif
 
     if (!ball->seen) {
-        driver->speed = SPEED_ATK;
+        driver->speed = GAME_SPEED;
         driver->speed = 0;
         driver->dir = 180;
     }

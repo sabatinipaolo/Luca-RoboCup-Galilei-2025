@@ -12,7 +12,7 @@ void setup() {
 }
 
 void loop() {
-   	read_sensors();
+	read_sensors();
 	behavior();
 	driver->move();
 

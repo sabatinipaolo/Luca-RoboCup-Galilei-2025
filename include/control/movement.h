@@ -21,11 +21,18 @@ public:
 
     int dir{0}, speed{0}, orient{0};
     int dx{0}, dy{0}; // Keep in mind that dx indicates forward/backward movement, while dy indicates left/right movement
-    bool brake{false};
+    bool brake{false}, absolute{false};
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);
-    void move(int dir, int dx, int dy, int speed, int orient, bool brake);
-    void move(int dir, int speed, int orient, bool brake);
+
+    // dir: direction the robot will move to, in degrees (can be used in conjunction with dx/dy)
+    // dx: the forward/backward movement of the robot (can be used in conjunction with dir)
+    // dy: the left/right movement of the robot (can be used in conjunction with dir)
+    // orient: direction the robot will look at while moving, in degrees
+    // brake: if true, the robot will stop all the motors instead of moving
+    // absolute: if true, the direction of the robot will be absolute, it won't be affected by the orient
+    void move(int dir, int dx, int dy, int speed, int orient, bool brake, bool absolute);
+    void move(int dir, int speed, int orient, bool brake, bool absolute);
     void move();
     void stop();
     void test();

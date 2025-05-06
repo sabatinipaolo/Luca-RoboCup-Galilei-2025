@@ -18,7 +18,7 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
     pid->SetControllerDirection(DIRECT);
 }
 
-void MovementController::move(int dir, int dx, int dy, int speed, int orient, bool brake) {
+void MovementController::move(int dir, int dx, int dy, int speed, int orient, bool brake, bool absolute) {
     // Motor movement
     double r_dir = toRad(dir);
     float dirX = speed * cos(r_dir) + dx;
@@ -28,10 +28,11 @@ void MovementController::move(int dir, int dx, int dy, int speed, int orient, bo
     this->dy = 0;
 
     float motorSpeed[4];
-    motorSpeed[0] = (dirX * motors[0]->ANGLE_SIN) + (dirY * motors[0]->ANGLE_COS);
-    motorSpeed[1] = (dirX * motors[1]->ANGLE_SIN) + (dirY * motors[1]->ANGLE_COS);
-    motorSpeed[2] = (dirX * motors[2]->ANGLE_SIN) + (dirY * motors[2]->ANGLE_COS);
-    motorSpeed[3] = (dirX * motors[3]->ANGLE_SIN) + (dirY * motors[3]->ANGLE_COS);
+    double orient_mot = (absolute) ? compass->angle : 0;
+    motorSpeed[0] = (dirX * sin(toRad(motors[0]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[0]->ANGLE + orient_mot)));
+    motorSpeed[1] = (dirX * sin(toRad(motors[1]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[1]->ANGLE + orient_mot)));
+    motorSpeed[2] = (dirX * sin(toRad(motors[2]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[2]->ANGLE + orient_mot)));
+    motorSpeed[3] = (dirX * sin(toRad(motors[3]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[3]->ANGLE + orient_mot)));
 
     // PID
     input = (compass->angle > 180) ? compass->angle - 360.0 : compass->angle;
@@ -59,12 +60,12 @@ void MovementController::move(int dir, int dx, int dy, int speed, int orient, bo
     if (brake) stop();
 }
 
-void MovementController::move(int dir, int speed, int orient, bool brake) {
-    move(dir, 0, 0, speed, orient, brake);
+void MovementController::move(int dir, int speed, int orient, bool brake, bool absolute) {
+    move(dir, 0, 0, speed, orient, brake, absolute);
 }
 
 void MovementController::move() {
-    move(this->dir, this->dx, this->dy, this->speed, this->orient, this->brake);
+    move(this->dir, this->dx, this->dy, this->speed, this->orient, this->brake, this->absolute);
 }
 
 void MovementController::stop() {

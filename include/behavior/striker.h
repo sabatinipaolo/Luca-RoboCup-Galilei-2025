@@ -1,6 +1,5 @@
 #pragma once
 
-#define SPEED_ATK 50//35
 #define STOP_TIME 30
 #define LINE_REACT_TIME 350
 
