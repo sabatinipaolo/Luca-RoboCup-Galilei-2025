@@ -14,6 +14,9 @@ void setup() {
 void loop() {
 	read_sensors();
 	behavior();
+	#ifdef ROLL
+	if (driver->dir > 90 and driver->dir < 270) driver->speed = 35;
+	#endif
 	driver->move();
 
 	// driver->test(); // Motors test

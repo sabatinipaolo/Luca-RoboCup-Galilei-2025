@@ -56,22 +56,23 @@ void attack() {
     driver->orient = 0;
 
     // BALL
-    #ifdef ROCK
-    if      (ball->relative_angle < 30)  driver->dir = (int)(ball->relative_angle * (3) + 5);
-    else if (ball->relative_angle > 330) driver->dir = (int)(360 - ((360 - ball->relative_angle) * (3)));
+    if (ball->distance < BALL_CLOSE) driver->dir = ball->relative_angle;
+
+    else if (ball->relative_angle < 30)  driver->dir = ball->relative_angle * 2;
+    else if (ball->relative_angle > 330) driver->dir = 360 - ((360 - ball->relative_angle) * 2);
+
+    else if (ball->relative_angle < 90)  driver->dir = ball->relative_angle * 2.2;
+    else if (ball->relative_angle > 180) driver->dir = 360 - ((360 - ball->relative_angle) * 2.5);
+
     else if (ball->relative_angle < 160) driver->dir = 160;
     else if (ball->relative_angle > 200) driver->dir = 200;
-    else                                 driver->dir = 130;
-    #else
-    if      (ball->absolute_angle < 50)  driver->dir = (int)(ball->absolute_angle * (1.5) - 5);
-    else if (ball->absolute_angle > 310) driver->dir = (int)(360 - ((360 - ball->absolute_angle) * (1.5)));
-    else if (ball->absolute_angle < 160) driver->dir = 160;
-    else if (ball->absolute_angle > 200) driver->dir = 200;
-    else                                 driver->dir = 130;
-    #endif
+
+    else {
+        if (!attack_goal->seen) driver->dir = 130;
+        else driver->dir = (attack_goal->angle < 180) ? 130 : 230;
+    }
 
     if (!ball->seen) {
-        driver->speed = GAME_SPEED;
         driver->speed = 0;
         driver->dir = 180;
     }
@@ -79,6 +80,9 @@ void attack() {
     // CAMERA
     if (attack_goal->seen) {
         driver->orient = attack_goal->angle;
+        if (driver->orient < 180) driver->orient = driver->orient * 1.25;
+        else driver->orient = 360 - ((360 - driver->orient) * 1.25);
+
         if (driver->orient > 45 and driver->orient < 180) driver->orient = 45;
         if (driver->orient < 315 and driver->orient > 180) driver->orient = 315;
     } else {

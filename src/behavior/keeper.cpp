@@ -9,7 +9,7 @@ void keeper() {
     static unsigned long start_time;
     unsigned long t0 = millis();
     static byte game_state = RESET;
-    
+
     switch (game_state) {
     case RESET:
         if (lines->status) {
@@ -33,7 +33,7 @@ void keeper() {
         break;
 
     case PARRY:
-        if (ball->distance < BALL_CLOSE or t0 - start_time > SAVE_TIME) {
+        if (ball->distance < BALL_CLOSE or t0 - start_time > SAVE_TIME or (ball->absolute_angle > 90 and ball->absolute_angle < 270) or (t0 - start_time > 100 and lines->status)) {
             game_state = RESET;
         } else {
             save();
@@ -49,7 +49,7 @@ void goto_goal() {
     driver->orient = 0;
     driver->speed = SETUP_SPEED;
 
-    if (!defence_goal->seen) driver->dir = 180;
+    if (!defence_goal->seen) driver->dir = 0;
     else if (defence_goal->angle > 90 and defence_goal->angle < 160) driver->dir = 55;
     else if (defence_goal->angle > 200 and defence_goal->angle < 270) driver->dir = 315;
     else driver->dir = 180;
@@ -62,18 +62,21 @@ void defend() {
     driver->absolute = true;
     driver->speed = 0;
 
-    if (!ball->seen or (ball->absolute_angle > 10 and ball->absolute_angle < 350)) stay_on_line(lines->status);
+    // if (!ball->seen or (ball->absolute_angle > 10 and ball->absolute_angle < 350)) stay_on_line(lines->status);
+    stay_on_line(lines->status);
 
     if (ball->absolute_angle < 90) driver->dy = map(ball->absolute_angle, 0, 90, GAME_SPEED/2, GAME_SPEED*4);
     if (ball->absolute_angle > 270) driver->dy = -map(ball->absolute_angle, 270, 360, GAME_SPEED*4, GAME_SPEED/2);
-    if (!ball->seen or defence_goal->angle > 220 or defence_goal->angle < 140 ) driver->dy = 0;
+    if (!ball->seen) driver->dy = 0;
+    if (defence_goal->angle > 220 and driver->dy > 0) driver->dy = 0;
+    if (defence_goal->angle < 140 and driver->dy < 0) driver->dy = 0;
 }
 
 void save() {
     driver->speed = GAME_SPEED;
     driver->orient = 0;
 
-    if      (ball->absolute_angle < 90)  driver->dir = ball->absolute_angle * 1.5;
-    else if (ball->absolute_angle > 270) driver->dir = (360 - ((360 - ball->relative_angle) * 1.5));
+    if      (ball->absolute_angle < 90)  driver->dir = ball->absolute_angle * 1.75;
+    else if (ball->absolute_angle > 270) driver->dir = (360 - ((360 - ball->relative_angle) * 1.75));
     else driver->speed = 0;
 }

@@ -6,6 +6,7 @@
 void line_react(byte readStatus) {
     #ifdef POLAR
     driver->speed = SPEED_LINE_REACT;
+    driver->absolute = true;
 
     int dirX = 0;
     int dirY = 0;
@@ -39,7 +40,7 @@ void line_react(byte readStatus) {
 void stay_on_line(byte readStatus) {
     if (((readStatus & 0b10000000) >> 7) == 1) driver->dx += SETUP_SPEED;
     if (((readStatus & 0b01000000) >> 6) == 1) driver->dx += SETUP_SPEED;
-    if (((readStatus & 0b00001000) >> 3) == 1) driver->dx -= SETUP_SPEED;
+    // if (((readStatus & 0b00001000) >> 3) == 1) driver->dx -= SETUP_SPEED;
     if (((readStatus & 0b00000100) >> 2) == 1) driver->dx -= SETUP_SPEED;
 
     if (

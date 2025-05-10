@@ -3,7 +3,7 @@
 #define YELLOW_GOAL 0
 #define BLUE_GOAL 1
 
-#define GOAL_SWITCH SWITCH_2
+#define GOAL_SWITCH SWITCH_3
 
 void readMV();
 
