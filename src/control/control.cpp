@@ -10,4 +10,9 @@ void init_control() {
         new Motor(Pins::DRIVER_2_A, Pins::DRIVER_2_B, Pins::DRIVER_2_PWM, 135), //M3 BASSO/DX
         new Motor(Pins::DRIVER_3_A, Pins::DRIVER_3_B, Pins::DRIVER_3_PWM, 225)  //M4 BASSO/SX
     );
+    position = new PositionController();
+}
+
+void update_control() {
+    position->update();
 }

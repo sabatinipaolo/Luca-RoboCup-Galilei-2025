@@ -7,14 +7,13 @@
 
 void keeper() {
     static unsigned long start_time;
-    unsigned long t0 = millis();
     static byte game_state = RESET;
 
     switch (game_state) {
     case RESET:
         if (lines->status) {
             game_state = DEFEND;
-            start_time = t0;
+            start_time = millis();
         } else {
             goto_goal();
         }
@@ -23,17 +22,17 @@ void keeper() {
     case DEFEND:
         if (ball->seen and ball->distance > BALL_CLOSE) {
             game_state = PARRY;
-            start_time = t0;
-        } else if (t0 - start_time > IDLE_TIME) {
+            start_time = millis();
+        } else if (millis() - start_time >= IDLE_TIME) {
             game_state = RESET;
         } else {
-            if (lines->status) start_time = t0;
+            if (lines->status) start_time = millis();
             defend();
         }
         break;
 
     case PARRY:
-        if (ball->distance < BALL_CLOSE or t0 - start_time > SAVE_TIME or (ball->absolute_angle > 90 and ball->absolute_angle < 270) or (t0 - start_time > 100 and lines->status)) {
+        if (ball->distance < BALL_CLOSE or millis() - start_time >= SAVE_TIME or (ball->absolute_angle > 90 and ball->absolute_angle < 270) or (millis() - start_time >= 100 and lines->status)) {
             game_state = RESET;
         } else {
             save();

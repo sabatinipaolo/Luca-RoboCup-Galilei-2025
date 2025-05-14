@@ -4,6 +4,7 @@
 #include "sensors/lines.h"
 #include "sensors/ball.h"
 #include "sensors/camera.h"
+#include "sensors/ball_presence.h"
 
 #ifdef SENSORS
 #define s_extr
@@ -18,6 +19,7 @@ s_extr HardwareSerial* BallSerial;
 s_extr Camera* attack_goal;
 s_extr Camera* defence_goal;
 s_extr HardwareSerial* CameraSerial;
+s_extr BallPresence* ball_presence;
 
 void init_sensors();
 void read_sensors();

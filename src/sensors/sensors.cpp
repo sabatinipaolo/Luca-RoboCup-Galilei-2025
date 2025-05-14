@@ -9,6 +9,7 @@ void init_sensors() {
     ball = new Ball();
     attack_goal = new Camera();
     defence_goal = new Camera();
+    ball_presence = new BallPresence();
 }
 
 void read_sensors() {
@@ -29,4 +30,6 @@ void read_sensors() {
         defence_goal->angle = filter_angle(defence_goal->angle, defence_goal->p_angle, 0.1);
         defence_goal->p_angle = defence_goal->angle;
     }
+
+    ball_presence->update();
 }

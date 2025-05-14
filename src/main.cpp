@@ -1,24 +1,34 @@
 #include <Arduino.h>
-#include "sensors/sensors.h"
+#include "actuators/actuators.h"
 #include "control/control.h"
 #include "control/movement.h"
 #include "behavior/behavior.h"
 
+// #include <Servo.h>
+// Servo test;
+
 void setup() {
 	delay(1000);
 	init_sensors();
+	init_actuators();
 	init_control();
 	pinMode(LED_BUILTIN, OUTPUT); // LOW is ON, HIGH is OFF - Connected to switch2, avoid use
+
+	// test.attach(PB5);
+    // test.write(45);
 }
 
 void loop() {
-	read_sensors();
-	behavior();
-	#ifdef ROLL
-	if (driver->dir > 90 and driver->dir < 270) driver->speed = 35;
-	#endif
-	driver->move();
+	// read_sensors();
+	// update_control();
+	// behavior();
+	// driver->move();
 
+    // test.write(90);
+	// delay(1000);
+    // test.write(180);
+	// delay(1000);
+	
 	// driver->test(); // Motors test
 	// driver->move(0, 0, 0, false); // PID test
 	// driver->move(0, 50, 0, false); // Polar movement test

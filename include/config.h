@@ -47,4 +47,8 @@ namespace Pins {
     constexpr int SWITCH_1 = PC14;
     constexpr int SWITCH_2 = PC13;
     constexpr int SWITCH_3 = PC15;
+
+    // BALL PRESENCE + KICKER
+    constexpr int BALL_PRESENCE = PB4;
+    constexpr int KICKER = PA8;
 }

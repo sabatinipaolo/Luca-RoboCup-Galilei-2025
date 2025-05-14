@@ -7,7 +7,6 @@
 
 void striker() {
     static unsigned long start_time;
-    unsigned long t0 = millis();
     static byte game_state = PLAY, saved_status;
     
     switch (game_state) {
@@ -15,26 +14,26 @@ void striker() {
         if (lines->status) {
             saved_status = lines->status;
             game_state = STOP;
-            start_time = t0;
+            start_time = millis();
         } else {
             attack();
         }
         break;
 
     case STOP:
-        if (t0 - start_time > STOP_TIME) {
+        if (millis() - start_time >= STOP_TIME) {
             game_state = LINE_REACT;
-            start_time = t0;
+            start_time = millis();
         } else {
             driver->brake = true;
         }
         break;
 
     case LINE_REACT:
-        if (t0 - start_time > LINE_REACT_TIME) {
+        if (millis() - start_time >= LINE_REACT_TIME) {
             if (lines->status) {
                 saved_status = lines->status;
-                start_time = t0;
+                start_time = millis();
             } else {
                 game_state = PLAY;
                 driver->dx = 0;
