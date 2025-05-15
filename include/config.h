@@ -1,11 +1,11 @@
 #pragma once
-
 #include <Arduino.h>
 
 // #define ROCK
 #define ROLL
 
 namespace Pins {
+    #ifdef BLUEPILL_ENV
     // MOTOR DRIVERS
     constexpr int DRIVER_0_A = PB12;
     constexpr int DRIVER_0_B = PB13;
@@ -52,4 +52,50 @@ namespace Pins {
     constexpr int BALL_PRESENCE = PB4;
     constexpr int KICKER = PA8;
     constexpr int ROLLER = PB5;
+    #endif
+
+    #ifdef TEENSY_ENV
+    // MOTOR DRIVERS
+    constexpr int DRIVER_0_A = 9;
+    constexpr int DRIVER_0_B = 10;
+    constexpr int DRIVER_0_PWM = 4;
+
+    constexpr int DRIVER_1_A = 11;
+    constexpr int DRIVER_1_B = 12;
+    constexpr int DRIVER_1_PWM = 5;
+
+    constexpr int DRIVER_2_A = 29;
+    constexpr int DRIVER_2_B = 30;
+    constexpr int DRIVER_2_PWM = 2;
+
+    constexpr int DRIVER_3_A = 31;
+    constexpr int DRIVER_3_B = 32;
+    constexpr int DRIVER_3_PWM = 3;
+
+    // LINE SENSORS
+    constexpr int LINE_N_INSIDE = A7;
+    constexpr int LINE_N_OUTSIDE = A6;
+
+    constexpr int LINE_E_INSIDE = A3;
+    constexpr int LINE_E_OUTSIDE = A2;
+
+    constexpr int LINE_S_INSIDE = A1;
+    constexpr int LINE_S_OUTSIDE = A0;
+
+    constexpr int LINE_W_INSIDE = A9;
+    constexpr int LINE_W_OUTSIDE = A8;
+
+    // SERIALS
+    #define ATMEGA_SERIAL Serial2
+    #define CAMERA_SERIAL Serial6
+
+    // SWITCHES -- TO CHECK
+    constexpr int SWITCH_1 = A17;
+    constexpr int SWITCH_2 = A16;
+    constexpr int SWITCH_3 = A15;
+    // ADVANCED FEATURES
+    constexpr int BALL_PRESENCE = A13;
+    constexpr int KICKER = 33;
+    constexpr int ROLLER = 28;
+    #endif
 }

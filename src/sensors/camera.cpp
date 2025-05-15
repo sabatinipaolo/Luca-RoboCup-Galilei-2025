@@ -6,14 +6,23 @@
 
 Camera::Camera() {
     pinMode(Pins::GOAL_SWITCH, INPUT);
+
+    #ifdef BLUEPILL_ENV
     CameraSerial = new HardwareSerial(Pins::CAMERA_RX, Pins::CAMERA_TX);
     CameraSerial->begin(19200);
+    #endif
+
+    #ifdef TEENSY_ENV
+    CAMERA_SERIAL.begin(19200);
+    #endif
 }
 
 void readMV() {
     int yellow_goal_angle, blue_goal_angle;
     int yellow_goal_area, blue_goal_area;
     char byteLetto;
+
+    #ifdef BLUEPILL_ENV
     while (CameraSerial->available()) {
 
         byteLetto = CameraSerial->read();
@@ -43,6 +52,39 @@ void readMV() {
             }
         }
     }
+    #endif
+
+    #ifdef TEENSY_ENV
+    while (CAMERA_SERIAL.available()) {
+
+        byteLetto = CAMERA_SERIAL.read();
+        if (byteLetto == 'Y') {
+            yellow_goal_angle = CAMERA_SERIAL.parseInt();
+            CAMERA_SERIAL.read();
+            yellow_goal_area = CAMERA_SERIAL.parseInt();
+
+            if (digitalRead(Pins::GOAL_SWITCH) == YELLOW_GOAL) {
+                attack_goal->raw_angle = yellow_goal_angle;
+                attack_goal->raw_area = yellow_goal_area;
+            } else {
+                defence_goal->raw_angle = yellow_goal_angle;
+                defence_goal->raw_area = yellow_goal_area;
+            }
+        } else if (byteLetto == 'B') {
+            blue_goal_angle = CAMERA_SERIAL.parseInt();
+            CAMERA_SERIAL.read();
+            blue_goal_area = CAMERA_SERIAL.parseInt();
+
+            if (digitalRead(Pins::GOAL_SWITCH) == BLUE_GOAL) {
+                attack_goal->raw_angle = blue_goal_angle;
+                attack_goal->raw_area = blue_goal_area;
+            } else {
+                defence_goal->raw_angle = blue_goal_angle;
+                defence_goal->raw_area = blue_goal_area;
+            }
+        }
+    }
+    #endif
 }
 
 void Camera::update() {
