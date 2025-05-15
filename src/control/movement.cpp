@@ -16,6 +16,7 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
     pid->SetOutputLimits(-255, 255);
     pid->SetMode(AUTOMATIC);
     pid->SetControllerDirection(DIRECT);
+    pid->setAngleWrap(true);
 }
 
 void MovementController::move(int dir, int dx, int dy, int speed, int orient, bool brake, bool absolute) {

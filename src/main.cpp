@@ -20,9 +20,9 @@ void setup() {
 }
 
 void loop() {
-	// read_sensors();
-	// update_control();
-	// behavior();
+	read_sensors();
+	update_control();
+	behavior();
 	// driver->move();
 
     // test.write(90);
@@ -31,7 +31,7 @@ void loop() {
 	// delay(1000);
 	
 	// driver->test(); // Motors test
-	// driver->move(0, 0, 0, false); // PID test
+	driver->move(0, 0, 180, false, false); // PID test
 	// driver->move(0, 50, 0, false); // Polar movement test
 	// driver->move(0, 50, 50, 0 , 0, false); // Cardinal movement test (should move 45°)
 	// driver->move(0, 0, 50, 50, 0, false); // Mixed movement test (should move 45°)

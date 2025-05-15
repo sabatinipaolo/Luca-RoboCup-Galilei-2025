@@ -50,7 +50,7 @@ class PID
 										  //   once it is set in the constructor.
     void SetSampleTime(int);              // * sets the frequency, in Milliseconds, with which 
                                           //   the PID calculation is performed.  default is 100
-										  
+		void setAngleWrap(bool a);								  
 										  
 										  
   //Display functions ****************************************************************
@@ -85,6 +85,7 @@ class PID
 	unsigned long SampleTime;
 	double outMin, outMax;
 	bool inAuto, pOnE;
+  bool angleWrap;
 };
 #endif
 

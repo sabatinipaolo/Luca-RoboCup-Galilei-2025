@@ -65,7 +65,17 @@ bool PID::Compute()
       /*Compute all the working error variables*/
       double input = *myInput;
       double error = *mySetpoint - input;
+      if(angleWrap) {
+         if(error > 180) error = error - 360;
+         else if(error < -180) error = error + 360;
+      }
+
       double dInput = (input - lastInput);
+      if(angleWrap) {
+         if(dInput > 180) dInput = dInput - 360;
+         else if(dInput < -180) dInput = dInput + 360;
+      }
+
       outputSum+= (ki * error);
 
       /*Add Proportional on Measurement, if P_ON_M is specified*/
@@ -209,6 +219,10 @@ void PID::SetControllerDirection(int Direction)
       kd = (0 - kd);
    }
    controllerDirection = Direction;
+}
+
+void PID::setAngleWrap(bool a) {
+   angleWrap = a;
 }
 
 /* Status Funcions*************************************************************
