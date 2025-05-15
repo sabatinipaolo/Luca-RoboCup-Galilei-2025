@@ -4,4 +4,6 @@
 
 void init_actuators() {
     kicker = new Kicker();
+    roller = new Roller();
+    roller->setSpeed(100);
 }

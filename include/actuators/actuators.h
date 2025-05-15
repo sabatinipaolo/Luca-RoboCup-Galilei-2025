@@ -1,6 +1,7 @@
 #pragma once
 
 #include "actuators/kicker.h"
+#include "actuators/roller.h"
 
 #ifdef ACTUATORS
 #define a_extr
@@ -9,5 +10,6 @@
 #endif
 
 a_extr Kicker* kicker;
+a_extr Roller* roller;
 
 void init_actuators();

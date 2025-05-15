@@ -33,6 +33,7 @@ public:
     // absolute: if true, the direction of the robot will be absolute, it won't be affected by the orient
     void move(int dir, int dx, int dy, int speed, int orient, bool brake, bool absolute);
     void move(int dir, int speed, int orient, bool brake, bool absolute);
+    void move(int dir, int speed, int orient);
     void move();
     void stop();
     void test();

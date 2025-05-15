@@ -64,6 +64,10 @@ void MovementController::move(int dir, int speed, int orient, bool brake, bool a
     move(dir, 0, 0, speed, orient, brake, absolute);
 }
 
+void MovementController::move(int dir, int speed, int orient) {
+    move(dir, 0, 0, speed, orient, false, false);
+}
+
 void MovementController::move() {
     move(this->dir, this->dx, this->dy, this->speed, this->orient, this->brake, this->absolute);
 }

@@ -3,13 +3,15 @@
 #include "actuators/kicker.h"
 #include "config.h"
 
-Kicker::Kicker() {}
+Kicker::Kicker() {
+    pinMode(Pins::KICKER, OUTPUT);
+}
 
 void Kicker::kick() {
     static long long int t_charge = 0, t_atk = 0;
     
     if (ball_presence->present) {
-        if (millis() - t_charge >= KICKER_CHARGE_TIME and attack_goal->seen and attack_goal->area > KICKER_AREA_THRESHOLD) {
+        if (millis() - t_charge >= KICKER_CHARGE_TIME) {
             digitalWrite(Pins::KICKER, HIGH);
             t_atk = millis();
         } 
