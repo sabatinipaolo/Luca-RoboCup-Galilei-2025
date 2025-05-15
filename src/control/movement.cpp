@@ -1,5 +1,4 @@
 #include "sensors/sensors.h"
-#include "utility/transformations.h"
 #include "control/control.h"
 #include "control/movement.h"
 
@@ -21,7 +20,7 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
 
 void MovementController::move(int dir, int dx, int dy, int speed, int orient, bool brake, bool absolute) {
     // Motor movement
-    double r_dir = toRad(dir);
+    double r_dir = radians(dir);
     float dirX = speed * cos(r_dir) + dx;
     float dirY = -(speed * sin(r_dir) + dy);
 
@@ -30,10 +29,10 @@ void MovementController::move(int dir, int dx, int dy, int speed, int orient, bo
 
     float motorSpeed[4];
     double orient_mot = (absolute) ? compass->angle : 0;
-    motorSpeed[0] = (dirX * sin(toRad(motors[0]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[0]->ANGLE + orient_mot)));
-    motorSpeed[1] = (dirX * sin(toRad(motors[1]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[1]->ANGLE + orient_mot)));
-    motorSpeed[2] = (dirX * sin(toRad(motors[2]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[2]->ANGLE + orient_mot)));
-    motorSpeed[3] = (dirX * sin(toRad(motors[3]->ANGLE + orient_mot))) + (dirY * cos(toRad(motors[3]->ANGLE + orient_mot)));
+    motorSpeed[0] = (dirX * sin(radians(motors[0]->ANGLE + orient_mot))) + (dirY * cos(radians(motors[0]->ANGLE + orient_mot)));
+    motorSpeed[1] = (dirX * sin(radians(motors[1]->ANGLE + orient_mot))) + (dirY * cos(radians(motors[1]->ANGLE + orient_mot)));
+    motorSpeed[2] = (dirX * sin(radians(motors[2]->ANGLE + orient_mot))) + (dirY * cos(radians(motors[2]->ANGLE + orient_mot)));
+    motorSpeed[3] = (dirX * sin(radians(motors[3]->ANGLE + orient_mot))) + (dirY * cos(radians(motors[3]->ANGLE + orient_mot)));
 
     // PID
     input = (compass->angle > 180) ? compass->angle - 360.0 : compass->angle;

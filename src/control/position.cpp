@@ -1,23 +1,19 @@
 #include "sensors/sensors.h"
 #include "control/position.h"
-#include "utility/transformations.h"
 
 PositionController::PositionController() {}
 
 void PositionController::update() {
     if (attack_goal->seen and defence_goal->seen) {
-        int attack_goal_slope, defence_goal_slope;
-        if (attack_goal->angle <= 90)      attack_goal_slope = tan(toRad(90 - attack_goal->angle));
-        else if (attack_goal->angle < 270) attack_goal_slope = tan(toRad(270 - attack_goal->angle));
-        else                               attack_goal_slope = tan(toRad(450 - attack_goal->angle));
-    
-        if (defence_goal->angle <= 90)      defence_goal_slope = tan(toRad(90 - defence_goal->angle));
-        else if (defence_goal->angle < 270) defence_goal_slope = tan(toRad(270 - defence_goal->angle));
-        else                                defence_goal_slope = tan(toRad(450 - defence_goal->angle));
-        
+        int attack_goal_slope = tan(radians((450-attack_goal->angle) % 360));
+        int defence_goal_slope = tan(radians((450-defence_goal->angle) % 360));
+
+        // y = attack_goal_slope * x + 100
+        // y = defence_goal_slope * x - 100
+        // x = (-100 - (+100)) / (attack_goal_slope - defence_goal_slope)
         if (attack_goal_slope != defence_goal_slope) {
-            coord.x = -242 / (attack_goal_slope - defence_goal_slope);
-            coord.y = attack_goal_slope * coord.x + 121;
+            coord.x = -200 / (attack_goal_slope - defence_goal_slope);
+            coord.y = attack_goal_slope * coord.x + 100;
             set = true;
         } else {
             set = false;

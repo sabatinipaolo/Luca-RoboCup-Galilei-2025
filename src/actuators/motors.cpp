@@ -1,5 +1,4 @@
 #include "actuators/motors.h"
-#include "utility/transformations.h"
 #include <Arduino.h>
 
 Motor::Motor(int a, int b, int pwm, int ANGLE){
@@ -8,8 +7,8 @@ Motor::Motor(int a, int b, int pwm, int ANGLE){
     this->PIN_PWM = pwm;
     this->ANGLE = ANGLE;
 
-    ANGLE_SIN = sin(toRad(ANGLE));
-    ANGLE_COS = cos(toRad(ANGLE));
+    ANGLE_SIN = sin(radians(ANGLE));
+    ANGLE_COS = cos(radians(ANGLE));
 
     pinMode(PIN_A, OUTPUT);
     pinMode(PIN_B, OUTPUT);

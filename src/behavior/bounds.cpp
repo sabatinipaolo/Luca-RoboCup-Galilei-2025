@@ -1,7 +1,6 @@
 #include "control/control.h"
 #include "behavior/behavior.h"
 #include "behavior/bounds.h"
-#include "utility/transformations.h"
 
 void line_react(byte readStatus) {
     #ifdef POLAR
@@ -20,7 +19,7 @@ void line_react(byte readStatus) {
     if (((readStatus & 0b00000010) >> 1) == 1) dirY += 100;
     if (((readStatus & 0b00000001) >> 0) == 1) dirY += 150;
 
-    driver->dir = toGrad(atan2((double)dirY, (double)dirX));
+    driver->dir = degrees(atan2((double)dirY, (double)dirX));
     #endif
 
     #ifdef CARTESIAN
