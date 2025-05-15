@@ -3,7 +3,8 @@
 
 BNO::BNO() {
     bno = Adafruit_BNO055(55, 0x28);
-    bno.begin(bno.OPERATION_MODE_IMUPLUS); //Could add check to see if conncted correctly
+    bno.begin();
+    bno.setMode(OPERATION_MODE_IMUPLUS);
     bno.setExtCrystalUse(true);
     delay(1000);
     

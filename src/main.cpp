@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "sensors/sensors.h"
 #include "actuators/actuators.h"
 #include "control/control.h"
 #include "control/movement.h"
