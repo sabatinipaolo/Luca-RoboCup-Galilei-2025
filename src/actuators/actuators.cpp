@@ -7,3 +7,7 @@ void init_actuators() {
     roller = new Roller();
     roller->setSpeed(100);
 }
+
+void update_actuators() {
+    kicker->update();
+}

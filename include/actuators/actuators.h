@@ -13,3 +13,4 @@ a_extr Kicker* kicker;
 a_extr Roller* roller;
 
 void init_actuators();
+void update_actuators();

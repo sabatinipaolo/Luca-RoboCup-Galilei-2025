@@ -7,20 +7,18 @@ Kicker::Kicker() {
     pinMode(Pins::KICKER, OUTPUT);
 }
 
-void Kicker::kick() {
-    static long long int t_charge = 0, t_atk = 0;
-    
-    if (ball_presence->present) {
-        if (millis() - t_charge >= KICKER_CHARGE_TIME) {
-            digitalWrite(Pins::KICKER, HIGH);
-            t_atk = millis();
-        } 
-    } else {
-        if (millis() - t_atk >= KICKER_ATK_TIME) {
-            digitalWrite(Pins::KICKER, LOW); 
-        } 
+void Kicker::kick() {    
+    if (millis() - t_charge >= KICKER_CHARGE_TIME and digitalRead(Pins::KICKER) == LOW) {
+        digitalWrite(Pins::KICKER, HIGH);
+        t_atk = millis();
+    } 
+}
+
+void Kicker::update() {
+    if (millis() - t_atk >= KICKER_ATK_TIME and digitalRead(Pins::KICKER) == HIGH) {
+        digitalWrite(Pins::KICKER, LOW); 
         t_charge = millis();
-    }
+    } 
 }
 
 void Kicker::test() {

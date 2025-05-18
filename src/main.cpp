@@ -14,10 +14,12 @@ void setup() {
 }
 
 void loop() {
-	// read_sensors();
-	// update_control();
-	// behavior();
-	// driver->move();
+	read_sensors();
+	update_control();
+	behavior();
+	kicker->kick();
+	update_actuators();
+	driver->move();
 	
 	// driver->test(); // Motors test
 	// driver->move(0, 0, 180); // PID test
