@@ -4,36 +4,34 @@
 
 Roller::Roller() {
     servo.attach(Pins::ROLLER);
+    servo.writeMicroseconds(1000);
+	delay(2000); 
 }
 
 void Roller::on() {
-    servo.writeMicroseconds(microseconds);
+    static unsigned long t = 0;
+    if (microseconds >= 1800) return;
+
+    if (millis() - t >= 15) {
+		servo.writeMicroseconds(microseconds);
+        microseconds += 10;
+        t = millis();
+    }
 }
 
 void Roller::off() {
-    servo.writeMicroseconds(1500);
-}
-
-void Roller::setSpeed(int speed) {
-    microseconds = map(speed, 0, 100, 1500, 1700);
+    servo.writeMicroseconds(1200);
+    microseconds = 1200;
 }
 
 void Roller::test() {
-    setSpeed(100);
-    on();
-    delay(2000);
+    static unsigned long t = 0;
 
-    setSpeed(50);
-    on();
-    delay(2000);
-
-    setSpeed(25);
-    on();
-    delay(2000);
-
-    setSpeed(0);
-    on();
-    delay(1000);
-    off();
-    delay(1000);
+    if (millis() - t < 5000) {
+        on();
+    } else if (millis() - t < 10000) {
+        off();
+    } else {
+        t = millis();
+    }
 }

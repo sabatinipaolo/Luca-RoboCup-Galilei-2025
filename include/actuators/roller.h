@@ -3,7 +3,8 @@
 
 class Roller {
 private: 
-    int microseconds{1300};
+    int microseconds{1200};
+    bool full_speed{false};
 public:
     Servo servo;
     
