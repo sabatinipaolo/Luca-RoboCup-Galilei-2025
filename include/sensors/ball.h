@@ -1,13 +1,14 @@
 #pragma once
 
-#define BALL_CLOSE 350
+#define is_ball_close(distance) distance > 350
 
 class Ball {
 private:
     int p_angle{0}, p_distance{0};
 
 public:
-    int relative_angle{0}, absolute_angle{0}, distance{0};
+    int relative_angle{0}, absolute_angle{0};
+    int distance{0}; // Bigger distance => closer ball
     bool seen{false};
 
     Ball();

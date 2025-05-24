@@ -5,6 +5,8 @@
 
 #define GOAL_SWITCH SWITCH_3
 
+#define is_goal_visible(area) area > 2000
+
 void readMV();
 
 class Goal {

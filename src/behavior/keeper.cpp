@@ -20,7 +20,7 @@ void keeper() {
         break;
 
     case DEFEND:
-        if (ball->seen and ball->distance > BALL_CLOSE) {
+        if (ball->seen and is_ball_close(ball->distance)) {
             game_state = PARRY;
             start_time = millis();
         } else if (millis() - start_time >= IDLE_TIME) {
@@ -32,7 +32,12 @@ void keeper() {
         break;
 
     case PARRY:
-        if (ball->distance < BALL_CLOSE or millis() - start_time >= SAVE_TIME or (ball->absolute_angle > 90 and ball->absolute_angle < 270) or (millis() - start_time >= 100 and lines->status)) {
+        if (
+            !is_ball_close(ball->distance) or 
+            millis() - start_time >= SAVE_TIME or 
+            (ball->absolute_angle > 90 and ball->absolute_angle < 270) or 
+            (millis() - start_time >= 100 and lines->status)
+        ) {
             game_state = RESET;
         } else {
             save();
@@ -67,8 +72,9 @@ void defend() {
     if (ball->absolute_angle < 90) driver->dy = map(ball->absolute_angle, 0, 90, GAME_SPEED/2, GAME_SPEED*4);
     if (ball->absolute_angle > 270) driver->dy = -map(ball->absolute_angle, 270, 360, GAME_SPEED*4, GAME_SPEED/2);
     if (!ball->seen) driver->dy = 0;
-    if (defence_goal->angle > 220 and driver->dy > 0) driver->dy = 0;
-    if (defence_goal->angle < 140 and driver->dy < 0) driver->dy = 0;
+    
+    if ((defence_goal->angle > 220 or is_goal_visible(defence_goal->angle)) and driver->dy > 0) driver->dy = 0;
+    if ((defence_goal->angle < 140 or is_goal_visible(defence_goal->angle)) and driver->dy < 0) driver->dy = 0;
 }
 
 void save() {

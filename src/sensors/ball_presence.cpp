@@ -12,5 +12,5 @@ void BallPresence::update() {
     #endif
     value = filter(value, p_value, 0.5);
     p_value = value;
-    present = value < BALL_PRESENCE_THRESHOLD;
+    is_in_mouth = value < BALL_PRESENCE_THRESHOLD;
 }

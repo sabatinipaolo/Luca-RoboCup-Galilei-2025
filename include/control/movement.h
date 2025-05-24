@@ -25,7 +25,7 @@ public:
     int dx{0}; // The forward/backward movement of the robot (can be used in conjunction with dir)
     int dy{0}; // The left/right movement of the robot (can be used in conjunction with dir)
     bool brake{false}; // If true, the robot will stop all the motors instead of moving
-    int absolute{false}; // If true, the direction of the robot will be absolute, it won't be affected by its angle
+    bool absolute{false}; // If true, the direction of the robot will be absolute, it won't be affected by its angle
     int pid_limit{255}; // The limits imposed to the PID (it SHOULD affect how quickly it applies)
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);

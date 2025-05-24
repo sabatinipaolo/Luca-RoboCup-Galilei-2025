@@ -12,6 +12,7 @@ void behavior() {
     driver->orient = 0;
     driver->brake = false;
     driver->absolute = false;
+    driver->pid_limit = 255;
 
     #ifdef STRIKER
     striker();

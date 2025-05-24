@@ -5,7 +5,7 @@
 class BallPresence {
 public:
     int p_value{0}, value{0};
-    bool present{false};
+    bool is_in_mouth{false};
 
     BallPresence();
     void update();
