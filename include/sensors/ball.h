@@ -12,4 +12,5 @@ public:
 
     Ball();
     void read();
+    void test();
 };

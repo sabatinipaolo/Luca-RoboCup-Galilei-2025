@@ -12,13 +12,12 @@ MovementController::MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m
     // PID init
     pid = new PID(&input, &output, &setPoint, KP, KI, KD, DIRECT);
     pid->SetSampleTime(2);
-    pid->SetOutputLimits(-255, 255);
     pid->SetMode(AUTOMATIC);
     pid->SetControllerDirection(DIRECT);
     pid->setAngleWrap(true);
 }
 
-void MovementController::move(int dir, int dx, int dy, int speed, int orient, bool brake, bool absolute) {
+void MovementController::move() {
     // Motor movement
     double r_dir = radians(dir);
     float dirX = speed * cos(r_dir) + dx;
@@ -35,6 +34,7 @@ void MovementController::move(int dir, int dx, int dy, int speed, int orient, bo
     motorSpeed[3] = (dirX * sin(radians(motors[3]->ANGLE + orient_mot))) + (dirY * cos(radians(motors[3]->ANGLE + orient_mot)));
 
     // PID
+    pid->SetOutputLimits(-pid_limit, pid_limit);
     input = (compass->angle > 180) ? compass->angle - 360.0 : compass->angle;
     setPoint = (orient > 180) ? orient - 360.0 : orient;
 
@@ -60,18 +60,6 @@ void MovementController::move(int dir, int dx, int dy, int speed, int orient, bo
     if (brake) stop();
 }
 
-void MovementController::move(int dir, int speed, int orient, bool brake, bool absolute) {
-    move(dir, 0, 0, speed, orient, brake, absolute);
-}
-
-void MovementController::move(int dir, int speed, int orient) {
-    move(dir, 0, 0, speed, orient, false, false);
-}
-
-void MovementController::move() {
-    move(this->dir, this->dx, this->dy, this->speed, this->orient, this->brake, this->absolute);
-}
-
 void MovementController::stop() {
     motors[0]->stop();
     motors[1]->stop();
@@ -79,9 +67,50 @@ void MovementController::stop() {
     motors[3]->stop();
 }
 
-void MovementController::test() {
-    driver->motors[0]->test();
-	driver->motors[1]->test();
-	driver->motors[2]->test();
-	driver->motors[3]->test();
+void MovementController::test(int test) {
+    switch (test) {
+    case 0: // MOTORS
+        motors[0]->test();
+        motors[1]->test();
+        motors[2]->test();
+        motors[3]->test();
+        break;
+
+    case 1: // PID
+        speed = 0;
+        dx = 0;
+        dy = 0;
+        orient = 0;
+        move();
+        break;
+
+    case 2: // POLAR MOVEMENT (should move 45°)
+        speed = 50;
+        dir = 45;
+        dx = 0;
+        dy = 0;
+        orient = 0;
+        move();
+        break;
+
+    case 3: // CARDINAL MOVEMENT (should move 45°)
+        speed = 0;
+        dx = 50;
+        dy = 50;
+        orient = 0;
+        move();
+        break;
+
+    case 4: // MIXED MOVEMET (should move 45°)
+        speed = 50;
+        dir = 0;
+        dx = 0;
+        dy = 50;
+        orient = 0;
+        move();
+        break;
+    
+    default:
+        break;
+    }
 }

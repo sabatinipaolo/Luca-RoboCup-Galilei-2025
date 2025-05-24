@@ -16,8 +16,8 @@ s_extr BNO* compass;
 s_extr Lines* lines;
 s_extr Ball* ball;
 s_extr HardwareSerial* BallSerial;
-s_extr Camera* attack_goal;
-s_extr Camera* defence_goal;
+s_extr Goal* attack_goal;
+s_extr Goal* defence_goal;
 s_extr HardwareSerial* CameraSerial;
 s_extr BallPresence* ball_presence;
 

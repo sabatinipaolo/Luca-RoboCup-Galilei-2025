@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "sensors/sensors.h"
 #include "sensors/ball.h"
+#include "control/control.h"
 #include "utility/filters.h"
 #include "config.h"
 
@@ -41,4 +42,12 @@ void Ball::read() {
     p_distance = distance;
 
     seen = distance > 0;
+}
+
+void Ball::test() {
+    driver->dir = absolute_angle;
+    driver->speed = 50;
+    driver->dx = 0;
+    driver->dy = 0;
+    driver->orient = 0;
 }

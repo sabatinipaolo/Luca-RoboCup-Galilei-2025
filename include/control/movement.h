@@ -19,22 +19,17 @@ public:
     //motors[3]: M4 BASSO-SX
     Motor* motors[4];
 
-    int dir{0}, speed{0}, orient{0};
-    int dx{0}, dy{0}; // Keep in mind that dx indicates forward/backward movement, while dy indicates left/right movement
-    bool brake{false}, absolute{false};
+    int dir{0}; // The direction the robot will move at (can be used in conjunction with dx/dy)
+    int speed{0}; // The speed the robot will move at (can be used in conjunction with dx/dy)
+    int orient{0}; // The direction the robot will look at while moving, in degrees
+    int dx{0}; // The forward/backward movement of the robot (can be used in conjunction with dir)
+    int dy{0}; // The left/right movement of the robot (can be used in conjunction with dir)
+    bool brake{false}; // If true, the robot will stop all the motors instead of moving
+    int absolute{false}; // If true, the direction of the robot will be absolute, it won't be affected by its angle
+    int pid_limit{255}; // The limits imposed to the PID (it SHOULD affect how quickly it applies)
 
     MovementController(Motor* m0, Motor* m1, Motor* m2, Motor* m3);
-
-    // dir: direction the robot will move to, in degrees (can be used in conjunction with dx/dy)
-    // dx: the forward/backward movement of the robot (can be used in conjunction with dir)
-    // dy: the left/right movement of the robot (can be used in conjunction with dir)
-    // orient: direction the robot will look at while moving, in degrees
-    // brake: if true, the robot will stop all the motors instead of moving
-    // absolute: if true, the direction of the robot will be absolute, it won't be affected by the orient
-    void move(int dir, int dx, int dy, int speed, int orient, bool brake, bool absolute);
-    void move(int dir, int speed, int orient, bool brake, bool absolute);
-    void move(int dir, int speed, int orient);
     void move();
     void stop();
-    void test();
+    void test(int test);
 };

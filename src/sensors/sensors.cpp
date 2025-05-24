@@ -7,8 +7,8 @@ void init_sensors() {
     compass = new BNO();
     lines = new Lines();
     ball = new Ball();
-    attack_goal = new Camera();
-    defence_goal = new Camera();
+    attack_goal = new Goal();
+    defence_goal = new Goal();
     ball_presence = new BallPresence();
 }
 

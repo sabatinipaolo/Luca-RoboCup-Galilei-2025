@@ -7,12 +7,13 @@
 
 void readMV();
 
-class Camera {
+class Goal {
 public:
     int angle{999}, p_angle{0}, raw_angle{999};
     int area{-1}, p_area{0}, raw_area{-1};
     bool seen{false};
 
-    Camera();
+    Goal();
     void update();
+    void test();
 };

@@ -1,10 +1,11 @@
 #include <Arduino.h>
 #include "sensors/sensors.h"
 #include "sensors/camera.h"
+#include "control/control.h"
 #include "utility/filters.h"
 #include "config.h"
 
-Camera::Camera() {
+Goal::Goal() {
     pinMode(Pins::GOAL_SWITCH, INPUT);
 
     #ifdef BLUEPILL_ENV
@@ -89,7 +90,7 @@ void readMV() {
     #endif
 }
 
-void Camera::update() {
+void Goal::update() {
     unsigned long t0 = millis();
     static unsigned long t1 = t0 + 500;
 
@@ -111,4 +112,11 @@ void Camera::update() {
         angle = 999;
         area = -1;
     }
+}
+
+void Goal::test() {
+    driver->speed = 0;
+    driver->dx = 0;
+    driver->dy = 0;
+    driver->orient = angle;
 }
