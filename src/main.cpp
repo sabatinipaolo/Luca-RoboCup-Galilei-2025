@@ -5,8 +5,6 @@
 #include "control/movement.h"
 #include "behavior/behavior.h"
 
-// Servo s;
-
 void setup() {
 	delay(1000);
 	init_sensors();
@@ -15,14 +13,13 @@ void setup() {
 	pinMode(LED_BUILTIN, OUTPUT); // LOW is ON, HIGH is OFF - Connected to switch2, avoid use
 }
 
-
 void loop() {
 	read_sensors();
 	update_control();
 	behavior();
 	update_actuators();
 	driver->move();
-
+	if (ball_presence->present) kicker->kick();
 	roller->on();
 
 	// driver->test(); // Motors test

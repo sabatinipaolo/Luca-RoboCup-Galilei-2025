@@ -1,5 +1,7 @@
 import sensor, time, math, pyb
 
+ball_presence = pyb.ADC(pyb.Pin('P6'))
+
 uart = pyb.UART(3,19200)
 
 thresholds = [(55, 100, 3, 35, 13, 127),    # YELLOW
@@ -51,6 +53,7 @@ while(True):
     blobYellow.sort(reverse = True)
     blobBlue.sort(reverse = True)
 
+    # YELLOW GOAL
     if (yellowFound):
         area = blobYellow[0][0]
         cx = camcx-blobYellow[0][1]
@@ -65,6 +68,7 @@ while(True):
     uart.write(data)
     print(data)
 
+    # BLUE GOAL
     if (blueFound):
         area = blobBlue[0][0]
         cx = 160-blobBlue[0][1]
@@ -76,5 +80,10 @@ while(True):
     else:
         data = "B999-999b"
 
+    uart.write(data)
+    print(data)
+
+    # BALL
+    data = "P" + str(ball_presence.read()) + "p"
     uart.write(data)
     print(data)

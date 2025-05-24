@@ -50,6 +50,8 @@ void readMV() {
                 defence_goal->raw_angle = blue_goal_angle;
                 defence_goal->raw_area = blue_goal_area;
             }
+        } else if (byteLetto == 'P') {
+            ball_presence->value = CameraSerial->parseInt();
         }
     }
     #endif

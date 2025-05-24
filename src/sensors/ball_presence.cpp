@@ -3,10 +3,13 @@
 #include "utility/filters.h"
 #include "config.h"
 
-BallPresence::BallPresence() {}
+BallPresence::BallPresence() {
+}
 
 void BallPresence::update() {
+    #ifdef TEENSY_ENV
     value = analogRead(Pins::BALL_PRESENCE);
+    #endif
     value = filter(value, p_value, 0.5);
     p_value = value;
     present = value < BALL_PRESENCE_THRESHOLD;

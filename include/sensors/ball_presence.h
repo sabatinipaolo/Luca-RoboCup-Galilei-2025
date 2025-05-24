@@ -1,11 +1,10 @@
 #pragma once
 
-#define BALL_PRESENCE_THRESHOLD 150
+#define BALL_PRESENCE_THRESHOLD 1000
 
 class BallPresence {
-private:
-    int p_value{0}, value{0};
 public:
+    int p_value{0}, value{0};
     bool present{false};
 
     BallPresence();
