@@ -36,17 +36,6 @@ void line_react(byte read_status, float mult) {
 }
 
 void stay_on_line(byte read_status, float mult) {
-    // Tries to put the line between south and est/west sensors
-    #ifdef DEF
-    if (((read_status & 0b10000000) >> 7) == 1) driver->dx += SETUP_SPEED;
-    if (((read_status & 0b01000000) >> 6) == 1) driver->dx += SETUP_SPEED;
-    if (((read_status & 0b00100000) >> 5) == 1) driver->dx += SETUP_SPEED * 0.7;
-    if (((read_status & 0b00010000) >> 4) == 1) driver->dx += SETUP_SPEED * 0.7;
-    if (((read_status & 0b00001000) >> 3) == 1) driver->dx -= SETUP_SPEED;
-    if (((read_status & 0b00000100) >> 2) == 1) driver->dx -= SETUP_SPEED;
-    if (((read_status & 0b00000010) >> 1) == 1) driver->dx += SETUP_SPEED * 0.7;
-    if (((read_status & 0b00000001) >> 0) == 1) driver->dx += SETUP_SPEED * 0.7;
-    #endif
     static unsigned long start_time = 0; 
     static byte saved_status = 0;
 
