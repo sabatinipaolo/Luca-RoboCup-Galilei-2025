@@ -4,12 +4,13 @@
 
 #ifdef ROLL
 #define STRIKER
+#define POLAR
 #define GAME_SPEED 70
 #endif
 
 #ifdef ROCK
 #define KEEPER
-#define CARTESIAN
+#define CARDINAL
 #define GAME_SPEED 60
 #endif
 

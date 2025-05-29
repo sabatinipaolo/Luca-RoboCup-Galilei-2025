@@ -10,7 +10,7 @@ Roller::Roller() {
 
 void Roller::on() {
     static unsigned long t = 0;
-    if (microseconds >= 1800) return;
+    if (microseconds >= 1700) return; // SPEED: 1600-1800
 
     if (millis() - t >= 15) {
 		servo.writeMicroseconds(microseconds);

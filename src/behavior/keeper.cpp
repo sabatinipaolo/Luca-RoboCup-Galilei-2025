@@ -6,16 +6,18 @@
 #include "behavior/keeper.h"
 
 void keeper() {
-    static unsigned long start_time;
+    static unsigned long start_time, start_defend_time = 0;
     static byte game_state = RESET;
 
     switch (game_state) {
     case RESET:
-        if (lines->status) {
+        if (((lines->status & 0b00001100) >> 2) > 0) {
             game_state = DEFEND;
             start_time = millis();
         } else {
             goto_goal();
+            defend();
+            stay_on_line(lines->status);
         }
         break;
 
@@ -28,19 +30,21 @@ void keeper() {
         } else {
             if (lines->status) start_time = millis();
             defend();
+            stay_on_line(lines->status);
         }
         break;
 
     case PARRY:
         if (
-            !is_ball_close(ball->distance) or 
-            millis() - start_time >= SAVE_TIME or 
-            (ball->absolute_angle > 90 and ball->absolute_angle < 270) or 
-            (millis() - start_time >= 100 and lines->status)
+            !is_ball_close(ball->distance) or // Ball far
+            millis() - start_time >= SAVE_TIME or // Enough time passed
+            (ball->absolute_angle > 90 and ball->absolute_angle < 270) or // Ball behind
+            (millis() - start_time >= 100 and lines->status) // Seen lines after 100ms
         ) {
             game_state = RESET;
         } else {
             save();
+            stay_on_line(lines->status);
         }
         break;
     
@@ -51,12 +55,18 @@ void keeper() {
 
 void goto_goal() {
     driver->orient = 0;
-    driver->speed = SETUP_SPEED;
+    // driver->speed = GAME_SPEED;
 
-    if (!defence_goal->seen) driver->dir = 0;
-    else if (defence_goal->angle > 90 and defence_goal->angle < 160) driver->dir = 55;
-    else if (defence_goal->angle > 200 and defence_goal->angle < 270) driver->dir = 315;
-    else driver->dir = 180;
+    // if (!defence_goal->seen) driver->dir = 0;
+    // else if (defence_goal->angle > 90 and defence_goal->angle < 150) driver->dir = 70;
+    // else if (defence_goal->angle > 210 and defence_goal->angle < 270) driver->dir = 290;
+    // else {
+    //     driver->dir = 180;
+    //     driver->speed = SETUP_SPEED;
+    // }
+
+    driver->dir = 180;
+    driver->speed = SETUP_SPEED;
 }
 
 void defend() {
@@ -64,17 +74,21 @@ void defend() {
     // driver->orient = (ball->seen) ? ball->absolute_angle : 0;
     driver->orient = 0;
     driver->absolute = true;
-    driver->speed = 0;
 
-    // if (!ball->seen or (ball->absolute_angle > 10 and ball->absolute_angle < 350)) stay_on_line(lines->status);
-    stay_on_line(lines->status);
-
-    if (ball->absolute_angle < 90) driver->dy = map(ball->absolute_angle, 0, 90, GAME_SPEED/2, GAME_SPEED*4);
-    if (ball->absolute_angle > 270) driver->dy = -map(ball->absolute_angle, 270, 360, GAME_SPEED*4, GAME_SPEED/2);
-    if (!ball->seen) driver->dy = 0;
+    // if (ball->absolute_angle < 135) driver->dy += map(ball->absolute_angle, 0, 90, GAME_SPEED, GAME_SPEED*2);
+    // if (ball->absolute_angle > 225) driver->dy -= map(ball->absolute_angle, 270, 360, GAME_SPEED*2, GAME_SPEED);
     
-    if ((defence_goal->angle > 220 or is_goal_visible(defence_goal->angle)) and driver->dy > 0) driver->dy = 0;
-    if ((defence_goal->angle < 140 or is_goal_visible(defence_goal->angle)) and driver->dy < 0) driver->dy = 0;
+    if (ball->absolute_angle < 45)  driver->dy += map(ball->absolute_angle, 0, 45, GAME_SPEED, GAME_SPEED*1.5);
+    else if (ball->absolute_angle < 135) driver->dy += map(ball->absolute_angle, 45, 135, GAME_SPEED*1.5, GAME_SPEED/1.5);
+    else if (ball->absolute_angle > 315) driver->dy -= map(ball->absolute_angle, 315, 360, GAME_SPEED*1.5, GAME_SPEED);
+    else if (ball->absolute_angle > 225) driver->dy -= map(ball->absolute_angle, 225, 315, GAME_SPEED/1.5, GAME_SPEED*1.5);
+
+    if (!ball->seen) driver->dy = 0;
+
+    if (is_goal_visible(defence_goal->area)) {
+        if (defence_goal->angle < 180) driver->dy += GAME_SPEED;
+        if (defence_goal->angle > 180) driver->dy -= GAME_SPEED;
+    }
 }
 
 void save() {

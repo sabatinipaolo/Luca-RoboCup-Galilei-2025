@@ -11,6 +11,5 @@ public:
     Roller();
     void on();
     void off();
-    void setSpeed(int speed);
     void test();
 };

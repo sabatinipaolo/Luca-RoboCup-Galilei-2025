@@ -66,7 +66,7 @@ while(True):
         data = "Y999-999y"
 
     uart.write(data)
-    print(data)
+    # print(data)
 
     # BLUE GOAL
     if (blueFound):
@@ -86,4 +86,4 @@ while(True):
     # BALL
     data = "P" + str(ball_presence.read()) + "p"
     uart.write(data)
-    print(data)
+    # print(data)

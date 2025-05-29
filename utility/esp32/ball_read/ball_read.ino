@@ -133,6 +133,7 @@ void printBall() {
 
   Serial.print(" | Distance = ");
   Serial.println(distance);
+  delay(500);
 }
 
 void printCounters() {
@@ -143,6 +144,7 @@ void printCounters() {
     Serial.println(timesSeen[i]);
   }
   Serial.println("----------------------------");
+  delay(500);
 }
 
 void blink() {

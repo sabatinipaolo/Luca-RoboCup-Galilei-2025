@@ -1,7 +1,7 @@
 #pragma once
 
 #define SAVE_TIME 1000
-#define IDLE_TIME 100
+#define IDLE_TIME 500
 
 // STATES
 #define RESET 0
