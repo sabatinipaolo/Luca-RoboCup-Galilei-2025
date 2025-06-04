@@ -5,7 +5,7 @@ ball_presence = pyb.ADC(pyb.Pin('P6'))
 uart = pyb.UART(3,19200)
 
 thresholds = [(55, 100, -128, 35, 20, 127),    # YELLOW
-              (0, 100, -128, 40, -128, -27)] # BLUE
+              (0, 50, -128, 41, -128, -15)] # BLUE
 
 # cx = 160-blob.cx()
 # cy = 120-blob.cy()

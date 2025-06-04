@@ -143,5 +143,8 @@ void attack() {
 
     // KICKER
     if (is_goal_visible(attack_goal->area) and ball_presence->is_in_mouth) kicker->kick();
+
+    // ROLLER
+    roller->on();
     #endif
 }

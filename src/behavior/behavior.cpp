@@ -19,6 +19,7 @@ void behavior() {
     #endif
 
     #ifdef KEEPER
-    keeper();
+    // keeper();
+    striker();
     #endif
 }
