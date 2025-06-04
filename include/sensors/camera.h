@@ -1,11 +1,18 @@
 #pragma once
+#include "behavior/behavior.h"
 
 #define YELLOW_GOAL 0
 #define BLUE_GOAL 1
 
 #define GOAL_SWITCH SWITCH_3
 
+#ifdef KEEPER
 #define is_goal_visible(area) area > 5000
+#endif
+
+#ifdef STRIKER
+#define is_goal_visible(area) area > 3000
+#endif
 
 void readMV();
 

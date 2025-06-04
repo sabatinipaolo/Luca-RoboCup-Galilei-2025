@@ -6,7 +6,7 @@
 void line_react(byte read_status, float mult) {
     #ifdef POLAR
     driver->speed = SPEED_LINE_REACT;
-    driver->absolute = true;
+    driver->absolute = false;
 
     int dirX = 0;
     int dirY = 0;
@@ -50,23 +50,23 @@ void stay_on_line(byte read_status, float mult) {
 
     if (((saved_status & 0b10000000) >> 7) == 1) driver->dx += GAME_SPEED*mult;
     if (((saved_status & 0b01000000) >> 6) == 1) driver->dx += GAME_SPEED*mult;
-    if (((saved_status & 0b00001000) >> 3) == 1) driver->dx += GAME_SPEED*mult;
+    // if (((saved_status & 0b00001000) >> 3) == 1) driver->dx += GAME_SPEED*mult;
     if (((saved_status & 0b00000100) >> 2) == 1) driver->dx += GAME_SPEED*mult;
 
-    if (((saved_status & 0b00100000) >> 5) == 1) driver->dy -= GAME_SPEED;
-    if (((saved_status & 0b00010000) >> 4) == 1) driver->dy -= GAME_SPEED;
-    if (((saved_status & 0b00000010) >> 1) == 1) driver->dy += GAME_SPEED;
-    if (((saved_status & 0b00000001) >> 0) == 1) driver->dy += GAME_SPEED;
+    if (((saved_status & 0b00100000) >> 5) == 1) driver->dy -= GAME_SPEED/2;
+    if (((saved_status & 0b00010000) >> 4) == 1) driver->dy -= GAME_SPEED/2;
+    if (((saved_status & 0b00000010) >> 1) == 1) driver->dy += GAME_SPEED/2;
+    if (((saved_status & 0b00000001) >> 0) == 1) driver->dy += GAME_SPEED/2;
 
     if (defence_goal->angle < 180) {
-        if (((saved_status & 0b00100000) >> 5) == 1) driver->dx += SETUP_SPEED*mult;
-        if (((saved_status & 0b00010000) >> 4) == 1) driver->dx += SETUP_SPEED*mult;
+        if (((saved_status & 0b00100000) >> 5) == 1) driver->dx += GAME_SPEED*mult;
+        if (((saved_status & 0b00010000) >> 4) == 1) driver->dx += GAME_SPEED*mult;
         if (((saved_status & 0b00000010) >> 1) == 1) driver->dy += GAME_SPEED*mult;
         if (((saved_status & 0b00000001) >> 0) == 1) driver->dy += GAME_SPEED*mult;
     } else {
         if (((saved_status & 0b00100000) >> 5) == 1) driver->dy -= GAME_SPEED*mult;
         if (((saved_status & 0b00010000) >> 4) == 1) driver->dy -= GAME_SPEED*mult;
-        if (((saved_status & 0b00000010) >> 1) == 1) driver->dx += SETUP_SPEED*mult;
-        if (((saved_status & 0b00000001) >> 0) == 1) driver->dx += SETUP_SPEED*mult;
+        if (((saved_status & 0b00000010) >> 1) == 1) driver->dx += GAME_SPEED*mult;
+        if (((saved_status & 0b00000001) >> 0) == 1) driver->dx += GAME_SPEED*mult;
     }
 }

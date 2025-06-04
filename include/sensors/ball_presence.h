@@ -1,6 +1,6 @@
 #pragma once
 
-#define BALL_PRESENCE_THRESHOLD 1000
+#define BALL_PRESENCE_THRESHOLD 1200
 
 class BallPresence {
 public:

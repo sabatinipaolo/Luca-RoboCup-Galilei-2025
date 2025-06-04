@@ -7,27 +7,27 @@ Lines::Lines() {
     thresholds[0] = 300; //130-950
     thresholds[1] = 300; //210-960
     
-    thresholds[2] = 300; //140-920
-    thresholds[3] = 300; //110-840
+    thresholds[2] = 200; //140-920
+    thresholds[3] = 200; //110-840
     
-    thresholds[4] = 300; //120-950
-    thresholds[5] = 300; //120-900
+    thresholds[4] = 200; //120-950
+    thresholds[5] = 200; //120-900
     
     thresholds[6] = 300; //200-960
     thresholds[7] = 300; //170-960
     
     #else
-    thresholds[0] = 100; //20-170
-    thresholds[1] = 150; //40-330
+    thresholds[0] = 500; //100-900
+    thresholds[1] = 750; //500-950 (when ball present)
 
-    thresholds[2] = 200; //50-420
-    thresholds[3] = 400; //80-730
+    thresholds[2] = 500; //100-850
+    thresholds[3] = 500; //200-950
     
-    thresholds[4] = 999999; //0-7 BROKEN
-    thresholds[5] = 190; //180-210
+    thresholds[4] = 250; //60-480
+    thresholds[5] = 750; //150-950
     
-    thresholds[6] = 350; //80-920
-    thresholds[7] = 350; //70-700
+    thresholds[6] = 500; //150-900
+    thresholds[7] = 500; //200-950
     
     #endif
 }

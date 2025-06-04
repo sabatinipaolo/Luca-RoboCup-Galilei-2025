@@ -4,8 +4,8 @@ ball_presence = pyb.ADC(pyb.Pin('P6'))
 
 uart = pyb.UART(3,19200)
 
-thresholds = [(55, 100, 3, 35, 13, 127),    # YELLOW
-              (0, 100, -128, 40, -128, -17)] # BLUE
+thresholds = [(55, 100, -128, 35, 20, 127),    # YELLOW
+              (0, 100, -128, 40, -128, -27)] # BLUE
 
 # cx = 160-blob.cx()
 # cy = 120-blob.cy()
@@ -38,32 +38,34 @@ while(True):
     blobBlue = [(0, 0, 0)]
 
     for blob in img.find_blobs(thresholds, pixels_threshold=200, area_threshold=200, merge=True):
-        img.draw_rectangle(blob.rect(), (255, 0, 0))
         img.draw_cross(blob.cx(),blob.cy())
         img.draw_cross(camcx,camcy);
         img.draw_line(camcx,camcy,blob.cx(),blob.cy())
         if (blob.code() == 1):
+            img.draw_rectangle(blob.rect(), (255, 255, 0))
             blobYellow += [(blob.area(), blob.cx(), blob.cy())]
             yellowFound = True
 
         if (blob.code() == 2):
+            img.draw_rectangle(blob.rect(), (0, 0, 255))
             blobBlue += [(blob.area(), blob.cx(), blob.cy())]
             blueFound = True
 
-    blobYellow.sort(reverse = True)
-    blobBlue.sort(reverse = True)
 
-    # YELLOW GOAL
-    if (yellowFound):
-        area = blobYellow[0][0]
-        cx = camcx-blobYellow[0][1]
-        cy = camcy-blobYellow[0][2]
-        ang = int((math.atan2(cx, cy) * 180 / math.pi) - 90)
-        if (ang < 0):
-            ang += 360
-        data = "Y" + str(ang) + "-" + str(area) + "y"
-    else:
-        data = "Y999-999y"
+        blobYellow.sort(reverse = True)
+        blobBlue.sort(reverse = True)
+
+        # YELLOW GOAL
+        if (yellowFound):
+            area = blobYellow[0][0]
+            cx = camcx-blobYellow[0][1]
+            cy = camcy-blobYellow[0][2]
+            ang = int((math.atan2(cx, cy) * 180 / math.pi) - 90)
+            if (ang < 0):
+                ang += 360
+            data = "Y" + str(ang) + "-" + str(area) + "y"
+        else:
+            data = "Y999-999y"
 
     uart.write(data)
     # print(data)
@@ -81,9 +83,9 @@ while(True):
         data = "B999-999b"
 
     uart.write(data)
-    print(data)
+    # print(data)
 
     # BALL
     data = "P" + str(ball_presence.read()) + "p"
     uart.write(data)
-    # print(data)
+    print(data)
