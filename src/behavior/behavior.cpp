@@ -19,7 +19,7 @@ void behavior() {
     #endif
 
     #ifdef KEEPER
-    // keeper();
-    striker();
+    keeper();
+    driver->orient = 0;
     #endif
 }

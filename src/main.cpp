@@ -15,20 +15,13 @@ void setup() {
 
 #include "behavior/bounds.h"
 void loop() {
-  	read_sensors();
+   	read_sensors();
 	update_control();
 	behavior();
-	
-	// roller->on();
-	// driver->absolute = true;
-	// if (ball_presence->is_in_mouth) {
-	// 	driver->speed = 0;
-	// } else {
-	// 	driver->orient = ball->absolute_angle;
-	// 	driver->speed = 50;
-	// 	driver->dir = ball->absolute_angle;
-	// }
 
+	roller->off();
+	// roller->on();
+	
 	update_actuators();
 	driver->move();
 }

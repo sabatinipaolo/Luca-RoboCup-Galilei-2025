@@ -24,7 +24,7 @@ Lines::Lines() {
     thresholds[3] = 750; //650-950
     
     thresholds[4] = 400; //140-600
-    thresholds[5] = 750; //340-950
+    thresholds[5] = 250; //100-480
     
     thresholds[6] = 500; //370-900
     thresholds[7] = 750; //510-950

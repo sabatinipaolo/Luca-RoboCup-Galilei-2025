@@ -51,6 +51,9 @@ void keeper() {
     default:
         break;
     }
+
+    driver->dx *= 0.6;
+    driver->orient = 0;
 }
 
 void goto_goal() {
@@ -60,7 +63,7 @@ void goto_goal() {
 }
 
 void defend() {
-    driver->orient = (defence_goal->angle + 180) % 360;
+    // driver->orient = (defence_goal->angle + 180) % 360;
     // driver->orient = (ball->seen) ? ball->absolute_angle : 0;
     driver->orient = 0;
     driver->absolute = true;
@@ -70,8 +73,8 @@ void defend() {
     // else if (ball->absolute_angle > 315) driver->dy -= map(ball->absolute_angle, 315, 360, GAME_SPEED*1.5, GAME_SPEED);
     // else if (ball->absolute_angle > 225) driver->dy -= map(ball->absolute_angle, 225, 315, GAME_SPEED/1.5, GAME_SPEED*1.5);
 
-    if (ball->absolute_angle < 135) driver->dy += map(ball->absolute_angle, 0, 135, GAME_SPEED*0.8, GAME_SPEED*2);
-    if (ball->absolute_angle > 225) driver->dy -= map(ball->absolute_angle, 225, 360, GAME_SPEED*2, GAME_SPEED*0.8);
+    if (ball->absolute_angle < 135) driver->dy += map(ball->absolute_angle, 0, 135, GAME_SPEED*0.8, GAME_SPEED*1.5);
+    if (ball->absolute_angle > 225) driver->dy -= map(ball->absolute_angle, 225, 360, GAME_SPEED*1.5, GAME_SPEED*0.8);
 
     if (!ball->seen) driver->dy = 0;
 

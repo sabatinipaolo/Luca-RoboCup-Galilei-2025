@@ -4,8 +4,8 @@ ball_presence = pyb.ADC(pyb.Pin('P6'))
 
 uart = pyb.UART(3,19200)
 
-thresholds = [(55, 100, -128, 35, 20, 127),    # YELLOW
-              (0, 50, -128, 41, -128, -15)] # BLUE
+thresholds = [(55, 100, -128, 35, 38, 127),    # YELLOW
+              (48, 62, -11, 8, -45, -10)] # BLUE
 
 # cx = 160-blob.cx()
 # cy = 120-blob.cy()
@@ -68,7 +68,7 @@ while(True):
             data = "Y999-999y"
 
     uart.write(data)
-    # print(data)
+    print(data)
 
     # BLUE GOAL
     if (blueFound):
@@ -83,9 +83,9 @@ while(True):
         data = "B999-999b"
 
     uart.write(data)
-    # print(data)
+    print(data)
 
     # BALL
     data = "P" + str(ball_presence.read()) + "p"
     uart.write(data)
-    print(data)
+    #print(data)

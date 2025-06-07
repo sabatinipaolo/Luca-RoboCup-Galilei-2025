@@ -5,15 +5,15 @@
 #ifdef ROLL
 #define STRIKER
 #define POLAR
-#define GAME_SPEED 35
+#define GAME_SPEED 45
 #endif
 
 #ifdef ROCK
 #define KEEPER
-#define CARTESIAN
-#define GAME_SPEED 35
+#define POLAR
+#define GAME_SPEED 30
 #endif
 
-#define SETUP_SPEED 30
+#define SETUP_SPEED 20
 
 void behavior();

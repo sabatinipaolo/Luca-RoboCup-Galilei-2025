@@ -80,7 +80,7 @@ void MovementController::test(int test) {
         speed = 0;
         dx = 0;
         dy = 0;
-        orient = ball->absolute_angle;
+        orient = 0;
         move();
         break;
 

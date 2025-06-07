@@ -4,3 +4,4 @@
 
 void line_react(byte readStatus, float mult=1);
 void stay_on_line(byte readStatus, float mult=1);
+bool goto_center();

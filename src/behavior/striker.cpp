@@ -6,6 +6,9 @@
 #include "behavior/bounds.h"
 #include "config.h"
 
+#define is_line_NS(status) (((status & 0b11000000) >> 6) or ((status & 0b00001100) >> 2))
+#define is_line_EW(status) (((status & 0b00110000) >> 4) or ((status & 0b00000011) >> 0))
+
 void striker() {
     static unsigned long start_time;
     static byte game_state = PLAY, saved_status;
@@ -41,7 +44,7 @@ void striker() {
                 driver->dy = 0;
             }
         } else {
-            attack();
+            // if (!goto_center()) line_react(saved_status);
             line_react(saved_status);
         }
         break;
@@ -130,21 +133,21 @@ void attack() {
     }
 
     // ORIENT
-    if (attack_goal->seen) {
-        driver->orient = attack_goal->angle;
-        // if (driver->orient < 180) driver->orient = driver->orient * 1.25;
-        // else driver->orient = 360 - ((360 - driver->orient) * 1.25);
-
-        // if (driver->orient > 45 and driver->orient < 180) driver->orient = 45;
-        // if (driver->orient < 315 and driver->orient > 180) driver->orient = 315;
-    } else {
-        driver->orient = 0;
-    }
+    if (ball_presence->is_in_mouth and attack_goal->seen) driver->orient = attack_goal->angle;
+    // else if (ball->absolute_angle < 30 or ball->absolute_angle > 330) driver->orient = ball->absolute_angle;
+    else if (attack_goal->seen) driver->orient = attack_goal->angle;
+    else driver->orient = 0;
 
     // KICKER
-    if (is_goal_visible(attack_goal->area) and ball_presence->is_in_mouth) kicker->kick();
+    if (
+        is_goal_visible(attack_goal->area) and 
+        ball_presence->is_in_mouth and
+        (abs(attack_goal->angle - compass->angle) < 30 or
+        abs(attack_goal->angle - compass->angle) > 330)
+    ) kicker->kick();
 
     // ROLLER
-    roller->on();
+    if (ball->relative_angle < 30 or ball->relative_angle > 330 or is_ball_close(ball->distance)) roller->on();
+    else roller->off();
     #endif
 }
