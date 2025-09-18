@@ -51,7 +51,7 @@ namespace Pins {
     constexpr int ROLLER = PB5;
     #endif
 
-    #ifdef TEENSY_ENV
+    #ifdef TEENSY41_ENV
     // MOTOR DRIVERS
     constexpr int DRIVER_0_A = 9;
     constexpr int DRIVER_0_B = 10;
@@ -83,16 +83,62 @@ namespace Pins {
     constexpr int LINE_W_OUTSIDE = A8;
 
     // SERIALS
-    #define ATMEGA_SERIAL Serial2
+    #define BALL_SERIAL Serial2
     #define CAMERA_SERIAL Serial6
 
     // SWITCHES -- TO CHECK
     constexpr int SWITCH_1 = A17;
     constexpr int SWITCH_2 = A16;
     constexpr int SWITCH_3 = A15;
+
     // ADVANCED FEATURES
     constexpr int BALL_PRESENCE = A13;
     constexpr int KICKER = 33;
     constexpr int ROLLER = 28;
+    #endif
+
+    #ifdef TEENSY35_ENV
+    // MOTOR DRIVERS
+    constexpr int DRIVER_0_A = 29;
+    constexpr int DRIVER_0_B = 28;
+    constexpr int DRIVER_0_PWM = 3;
+
+    constexpr int DRIVER_1_A = 12;
+    constexpr int DRIVER_1_B = 11;
+    constexpr int DRIVER_1_PWM = 4;
+
+    constexpr int DRIVER_2_A = 25;
+    constexpr int DRIVER_2_B = 24;
+    constexpr int DRIVER_2_PWM = 5;
+
+    constexpr int DRIVER_3_A = 27;
+    constexpr int DRIVER_3_B = 26;
+    constexpr int DRIVER_3_PWM = 2;
+
+    // LINE SENSORS
+    constexpr int LINE_N_INSIDE = 20;
+    constexpr int LINE_N_OUTSIDE = 21;
+
+    constexpr int LINE_E_INSIDE = 17;
+    constexpr int LINE_E_OUTSIDE = 16;
+
+    constexpr int LINE_S_INSIDE = 15;
+    constexpr int LINE_S_OUTSIDE = 14;
+
+    constexpr int LINE_W_INSIDE = 23;
+    constexpr int LINE_W_OUTSIDE = 22;
+
+    // SERIALS
+    #define BALL_SERIAL Serial2
+    #define CAMERA_SERIAL Serial3
+
+    // SWITCHES -- TO CHECK
+    constexpr int SWITCH_1 = 39;
+    constexpr int SWITCH_2 = 38;
+    constexpr int SWITCH_3 = 33;
+
+    // ADVANCED FEATURES
+    constexpr int BALL_PRESENCE = A13;
+    constexpr int KICKER = 34;
     #endif
 }

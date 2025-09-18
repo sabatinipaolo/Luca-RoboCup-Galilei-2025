@@ -12,7 +12,7 @@ Ball::Ball() {
     #endif
 
     #ifdef TEENSY_ENV
-    ATMEGA_SERIAL.begin(57600);
+    BALL_SERIAL.begin(57600);
     #endif
 }
 
@@ -26,8 +26,8 @@ void Ball::read() {
     #endif
 
     #ifdef TEENSY_ENV
-    while (ATMEGA_SERIAL.available()) {
-        String message = ATMEGA_SERIAL.readStringUntil('b'); 
+    while (BALL_SERIAL.available()) {
+        String message = BALL_SERIAL.readStringUntil('b'); 
         relative_angle = message.substring(message.lastIndexOf("B")+1, message.indexOf("-")).toInt();
         distance = message.substring(message.lastIndexOf("-")+1).toInt();
     }
