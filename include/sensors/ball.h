@@ -1,7 +1,5 @@
 #pragma once
 
-#define is_ball_close(distance) (distance > 350)
-#define is_ball_far(distance) (distance < 300)
 
 class Ball {
 private:
@@ -15,4 +13,6 @@ public:
     Ball();
     void read();
     void test();
+    bool is_close();
+    
 };
