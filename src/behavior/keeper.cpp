@@ -22,7 +22,7 @@ void keeper() {
         break;
 
     case DEFEND:
-        if (ball->seen and ((is_ball_close(ball->distance) and (ball->absolute_angle < 30 or ball->absolute_angle > 330)) or ball_presence->is_in_mouth)) {
+        if (ball->seen and ((ball->is_close() and (ball->absolute_angle < 30 or ball->absolute_angle > 330)) or ball_presence->is_in_mouth)) {
             game_state = PARRY;
             start_time = millis();
         } else if (millis() - start_time >= IDLE_TIME) {
@@ -36,7 +36,7 @@ void keeper() {
 
     case PARRY:
         if (
-            !is_ball_close(ball->distance) or // Ball far
+            !ball->is_close() or // Ball far
             millis() - start_time >= SAVE_TIME or // Enough time passed
             (ball->absolute_angle > 90 and ball->absolute_angle < 270) or // Ball behind
             (millis() - start_time >= 100 and lines->status) // Seen lines after 100ms

@@ -51,3 +51,7 @@ void Ball::test() {
     driver->dy = 0;
     driver->orient = 0;
 }
+
+bool Ball::is_close() {
+     return ( distance > 350 );
+}

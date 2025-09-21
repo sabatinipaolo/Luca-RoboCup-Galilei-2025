@@ -111,7 +111,7 @@ void attack() {
     // DIR e SPEED
     driver->speed = GAME_SPEED;
 
-    if (!is_ball_close(ball->distance)) driver->dir = ball->relative_angle;
+    if (!ball->is_close()) driver->dir = ball->relative_angle;
 
     else if (ball->relative_angle < 30)  driver->dir = ball->relative_angle * 2;
     else if (ball->relative_angle > 330) driver->dir = 360 - ((360 - ball->relative_angle) * 2);
@@ -147,7 +147,7 @@ void attack() {
     ) kicker->kick();
 
     // ROLLER
-    if (ball->relative_angle < 30 or ball->relative_angle > 330 or is_ball_close(ball->distance)) roller->on();
+    if (ball->relative_angle < 30 or ball->relative_angle > 330 or ball->is_close()) roller->on();
     else roller->off();
     #endif
 }
