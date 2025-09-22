@@ -1,7 +1,14 @@
-#define SENSORS
-
 #include "sensors/sensors.h"
 #include "utility/filters.h"
+
+ BNO* compass = nullptr;
+ Lines* lines = nullptr;
+ Ball* ball = nullptr;
+ HardwareSerial* BallSerial = nullptr;
+ Goal* attack_goal = nullptr;
+ Goal* defence_goal = nullptr;
+ HardwareSerial* CameraSerial = nullptr;
+ BallPresence* ball_presence = nullptr;
 
 void init_sensors() {
     compass = new BNO();
