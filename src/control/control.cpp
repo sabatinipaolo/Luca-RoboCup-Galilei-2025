@@ -1,7 +1,9 @@
-#define CONTROL
-
 #include "control/control.h"
 #include "config.h"
+
+MovementController* driver = nullptr;
+PositionController* position = nullptr;
+
 
 void init_control() {
     driver = new MovementController(
